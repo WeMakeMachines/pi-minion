@@ -1,4 +1,6 @@
-from flask import Blueprint
+import werkzeug
+
+from flask import abort, Blueprint
 from dotenv import dotenv_values
 from services import OpenWeatherMap
 
@@ -16,6 +18,11 @@ def now():
 def hourly():
     return openWeatherMap.hourly()
 
-@weather.route("/daily")
-def daily():
-    return openWeatherMap.daily()
+@weather.route("/daily/<int:days>")
+def daily(days):
+    maximumDayRange = 8
+    minimumDayRange = 1
+    if days > maximumDayRange or days < minimumDayRange:
+        # TODO Better error handling
+        abort(500)
+    return openWeatherMap.daily(days)

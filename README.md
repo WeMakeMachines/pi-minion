@@ -23,7 +23,7 @@ A small home server to run on the raspberry pi, to do your bidding
 
 - `/weather/now` - returns the weather now
 - `/weather/hourly` - returns the weather for the next 48 hours
-- `/weather/daily` - returns the forecast for the next 8 days
+- `/weather/daily/{n}` - returns the forecast for the next {n} days. Up to 8.
 
 ## TODO
 

@@ -92,14 +92,17 @@ class OpenWeatherMap:
             'hourly': list(hourly)
         }
 
-    def daily(self):
+    def daily(self, days: int):
         response = requests.get(f"https://api.openweathermap.org/data/2.5/onecall?lat={self.latitude}&lon={self.longitude}&appid={self.apiKey}&units={self.units}&exclude=current,minutely,hourly,alerts")
         
-        data = json.loads(response.text)
+        data = json.loads(response.text)   
         daily = []
         
-        for item in data['daily']:
-            daily.append(self.__parseDailyObject(item))
+        count = 0
+        
+        while (count < days):
+            daily.append(self.__parseDailyObject(data['daily'][count]))
+            count += 1
 
         return {
             'daily': list(daily)
