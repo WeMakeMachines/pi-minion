@@ -1,5 +1,3 @@
-import werkzeug
-
 from flask import abort, Blueprint
 from dotenv import dotenv_values
 from services import OpenWeatherMap

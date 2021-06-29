@@ -1,6 +1,8 @@
-# pi + minion = pinion 😈
+# pinion.weather 😈⛅
 
-A small home server to run on the raspberry pi, to do your bidding
+_pinion - a small cog which engages the teeth of a larger wheel_
+
+- a small weather microservice
 
 ## Dependencies
 
@@ -9,11 +11,7 @@ A small home server to run on the raspberry pi, to do your bidding
 - Flask
 - python-dotenv
 
-## What it does
-
-- Parses weather information from OpenWeatherMap
-
-## How to setup
+## Setup
 
 1. Create a `.env` file from the `.env.example`
 2. `. venv/bin/activate`
