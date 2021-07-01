@@ -3,10 +3,10 @@ class Temperature(dict):
         self.actual = kwargs.get('actual')
         self.feels_like = kwargs.get('feels_like')
         
-        self.description = self.__describeTemperature(self.actual)
+        self.description = self.__describe_temperature(self.actual)
         dict.__init__(self, actual = self.actual, feels_like = self.feels_like, description = self.description)
         
-    def __describeTemperature(self, temperature):
+    def __describe_temperature(self, temperature):
         description = ["below freezing", "freezing", "very cold", "cold", "moderate", "hot", "very hot", "sweltering"]
         
         if temperature < 0:

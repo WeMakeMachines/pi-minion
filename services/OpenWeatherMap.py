@@ -3,6 +3,8 @@ import json
 
 from models.Weather import Clouds, Sun, Temperature, Wind
 
+# Interfaces with the OpenWeatherMap API
+# Docs: https://openweathermap.org/api/one-call-api
 class OpenWeatherMap:
     def __init__(self, apiKey: str, latitude: float, longitude: float, units: str = "metric"):
         self.apiKey = apiKey
@@ -10,7 +12,7 @@ class OpenWeatherMap:
         self.longitude = longitude
         self.units = units
         
-    def __parseHourlyObject(self, object):
+    def __parse_hourly_oObject(self, object):
         return {
             'time': object['dt'],
             'description': object['weather'][0]['description'],
@@ -27,7 +29,7 @@ class OpenWeatherMap:
             )
         }
     
-    def __parseDailyObject(self, object):
+    def __parse_daily_object(self, object):
         return {
             'sun': Sun(
                 sunrise = object['sunrise'],
@@ -75,7 +77,7 @@ class OpenWeatherMap:
                 sunrise = now['sunrise'],
                 sunset = now['sunset']
             ),
-            'now': self.__parseHourlyObject(now)
+            'now': self.__parse_hourly_oObject(now)
         }
     
     def hourly(self):
@@ -86,23 +88,21 @@ class OpenWeatherMap:
         hourly = []
         
         for item in data['hourly']:
-            hourly.append(self.__parseHourlyObject(item))
+            hourly.append(self.__parse_hourly_oObject(item))
 
         return {
             'hourly': list(hourly)
         }
 
-    def daily(self, days: int):
+    def daily(self):
         response = requests.get(f"https://api.openweathermap.org/data/2.5/onecall?lat={self.latitude}&lon={self.longitude}&appid={self.apiKey}&units={self.units}&exclude=current,minutely,hourly,alerts")
         
-        data = json.loads(response.text)   
+        data = json.loads(response.text)
+
         daily = []
-        
-        count = 0
-        
-        while (count < days):
-            daily.append(self.__parseDailyObject(data['daily'][count]))
-            count += 1
+
+        for day in data['daily']:
+            daily.append(self.__parse_daily_object(day))
 
         return {
             'daily': list(daily)

@@ -5,10 +5,10 @@ class Wind(dict):
         self.speed = kwargs.get('speed')
         self.degrees = kwargs.get('degrees')
         self.gust = kwargs.get('gust')
-        self.description = self.__describeWindDirection(self.degrees)
+        self.description = self.__describe_wind_direction(self.degrees)
         dict.__init__(self, speed = self.speed, degrees = self.degrees, gust = self.gust, description = self.description)
     
-    def __describeWindDirection(self, degrees):
+    def __describe_wind_direction(self, degrees):
         description = ["north", "north east", "east", "south east", "south", "south west", "west", "north west"]
         degrees_in_compass = 360
         cardinal_points = 8
