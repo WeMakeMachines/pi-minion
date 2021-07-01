@@ -1,8 +1,13 @@
-# pinion.weather 😈⛅
-
 _pinion - a small cog which engages the teeth of a larger wheel_
 
+# pinion.weather 😈⛅
+
 - a small weather microservice
+
+## Features
+
+- Uses OpenWeatherMap API
+- caches response data
 
 ## Dependencies
 
