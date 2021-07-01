@@ -3,7 +3,7 @@ import logging
 from flask import abort, Blueprint, request
 from dotenv import dotenv_values
 from services import Caching, OpenWeatherMap
-from middleware import caching, caching_60_minutes, caching_24_hours
+from middleware import caching
 
 config = dotenv_values(".env")
 
@@ -18,8 +18,7 @@ def now():
     return open_weather_map.now()
 
 @weather.route("/hourly")
-@caching_60_minutes
-@caching
+@caching(60)
 def hourly():
     
     if request.cacheable == True:
@@ -33,8 +32,7 @@ def hourly():
     return data;
 
 @weather.route("/daily")
-@caching_24_hours
-@caching
+@caching(60 * 24)
 def daily():
     
     if request.cacheable == True:
