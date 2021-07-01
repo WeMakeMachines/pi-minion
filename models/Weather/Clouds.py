@@ -1,6 +1,6 @@
 class Clouds(dict):
     def __init__(self, **kwargs):
-        self.cloud_cover = kwargs.get('cloud_cover')
+        self.cloud_cover = kwargs.get("cloud_cover")
         self.description = self.__describe_cloud_cover(self.cloud_cover)
         dict.__init__(self, cloud_cover = self.cloud_cover, description = self.description)
         

@@ -1,7 +1,7 @@
 class Temperature(dict):
     def __init__(self, **kwargs):
-        self.actual = kwargs.get('actual')
-        self.feels_like = kwargs.get('feels_like')
+        self.actual = kwargs.get("actual")
+        self.feels_like = kwargs.get("feels_like")
         
         self.description = self.__describe_temperature(self.actual)
         dict.__init__(self, actual = self.actual, feels_like = self.feels_like, description = self.description)

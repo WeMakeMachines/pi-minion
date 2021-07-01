@@ -1,17 +1,15 @@
 import logging
 
+from config import BaseConfig
 from flask import abort, Blueprint, request
-from dotenv import dotenv_values
 from services import Caching, OpenWeatherMap
 from middleware import caching
 
-config = dotenv_values(".env")
-
 logging.basicConfig(filename="pinion.weather.info.log",level=logging.INFO, format="%(asctime)s:%(message)s")
 
-open_weather_map = OpenWeatherMap(config['OPEN_WEATHER_MAP_API_KEY'], config['LATITUDE'], config['LONGITUDE']);
+open_weather_map = OpenWeatherMap(BaseConfig.OPEN_WEATHER_MAP_API_KEY, BaseConfig.LATITUDE, BaseConfig.LONGITUDE);
 
-weather = Blueprint('weather', __name__, url_prefix='/weather')
+weather = Blueprint("weather", __name__, url_prefix="/weather")
 
 @weather.route("/now")
 def now():
@@ -27,7 +25,7 @@ def hourly():
 
     else:
         data = request.cache.read()
-        logging.info('Request for hourly read from application cache')
+        logging.info("Request for hourly read from application cache")
     
     return data;
 
@@ -41,6 +39,6 @@ def daily():
 
     else:
         data = request.cache.read()
-        logging.info('Request for daily read from application cache')
+        logging.info("Request for daily read from application cache")
     
     return data;

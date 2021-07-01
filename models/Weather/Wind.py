@@ -2,9 +2,9 @@ from typing import Tuple, overload
 
 class Wind(dict):
     def __init__(self, **kwargs):
-        self.speed = kwargs.get('speed')
-        self.degrees = kwargs.get('degrees')
-        self.gust = kwargs.get('gust')
+        self.speed = kwargs.get("speed")
+        self.degrees = kwargs.get("degrees")
+        self.gust = kwargs.get("gust")
         self.description = self.__describe_wind_direction(self.degrees)
         dict.__init__(self, speed = self.speed, degrees = self.degrees, gust = self.gust, description = self.description)
     

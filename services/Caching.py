@@ -27,7 +27,7 @@ class Caching:
         if not cacheExists:
             return None
         
-        with open(self.__get_cache_path(), 'r') as openfile:
+        with open(self.__get_cache_path(), "r") as openfile:
             return json.load(openfile)
         
     def write(self, data):
@@ -35,6 +35,6 @@ class Caching:
         
         with open(self.__get_cache_path(), "w") as outfile:
             json.dump({
-                'timestamp': timestamp,
-                'data': data
+                "timestamp": timestamp,
+                "data": data
             }, outfile)
