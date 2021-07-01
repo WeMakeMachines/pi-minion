@@ -1,11 +1,7 @@
-import logging
-import sys
-
+from services import Caching
 from weather import weather
 
 from flask import Flask
-
-logging.basicConfig(filename="pi_minion.log",level=logging.ERROR)
 
 app = Flask(__name__)
 

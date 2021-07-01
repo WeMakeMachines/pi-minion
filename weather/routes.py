@@ -1,26 +1,48 @@
-from flask import abort, Blueprint
+import logging
+
+from flask import abort, Blueprint, request
 from dotenv import dotenv_values
-from services import OpenWeatherMap
+from services import Caching, OpenWeatherMap
+from middleware import caching, caching_60_minutes, caching_24_hours
 
 config = dotenv_values(".env")
 
-openWeatherMap = OpenWeatherMap(config['OPEN_WEATHER_MAP_API_KEY'], config['LATITUDE'], config['LONGITUDE']);
+logging.basicConfig(filename="pinion.weather.info.log",level=logging.INFO, format="%(asctime)s:%(message)s")
+
+open_weather_map = OpenWeatherMap(config['OPEN_WEATHER_MAP_API_KEY'], config['LATITUDE'], config['LONGITUDE']);
 
 weather = Blueprint('weather', __name__, url_prefix='/weather')
 
 @weather.route("/now")
 def now():
-    return openWeatherMap.now()
+    return open_weather_map.now()
 
 @weather.route("/hourly")
+@caching_60_minutes
+@caching
 def hourly():
-    return openWeatherMap.hourly()
+    
+    if request.cacheable == True:
+        data = open_weather_map.hourly()
+        request.cache.write(data)
 
-@weather.route("/daily/<int:days>")
-def daily(days):
-    maximumDayRange = 8
-    minimumDayRange = 1
-    if days > maximumDayRange or days < minimumDayRange:
-        # TODO Better error handling
-        abort(500)
-    return openWeatherMap.daily(days)
+    else:
+        data = request.cache.read()
+        logging.info('Request for hourly read from application cache')
+    
+    return data;
+
+@weather.route("/daily")
+@caching_24_hours
+@caching
+def daily():
+    
+    if request.cacheable == True:
+        data = open_weather_map.daily()
+        request.cache.write(data)
+
+    else:
+        data = request.cache.read()
+        logging.info('Request for daily read from application cache')
+    
+    return data;
