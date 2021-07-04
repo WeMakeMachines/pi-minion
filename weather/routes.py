@@ -20,7 +20,7 @@ def __handle_caching_props(request, get_data):
     else:
         data = get_data()
     
-    if request.cacheable == True:
+    if request.cacheable == Cacheable.TRUE:
         request.cache.write(data)
 
     return data;

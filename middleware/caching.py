@@ -23,7 +23,7 @@ def set_caching_properties(cache_expiry_time_in_minutes):
                 
                 cache = request.cache.read()
                 
-                if not cache == None:
+                if cache != None:
                     elapsed_time = elapsed_time_in_minutes(cache["timestamp"])
                     
                     if elapsed_time < cache_expiry_time_in_minutes:
