@@ -1,6 +1,3 @@
-from typing import Union
-
-
 class Temperature(dict):
     @staticmethod
     def __describe_temperature(temperature):
@@ -16,7 +13,7 @@ class Temperature(dict):
 
         return description[pick + 1]
 
-    def __init__(self, actual: float, feels_like: Union[float, None]):
+    def __init__(self, actual: float, feels_like: float = None):
         self.actual = actual
         self.feels_like = feels_like
 
