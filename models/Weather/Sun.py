@@ -1,5 +1,5 @@
 class Sun(dict):
-    def __init__(self, **kwargs):
-        self.sunrise = kwargs.get("sunrise")
-        self.sunset = kwargs.get("sunset")
-        dict.__init__(self, sunrise = self.sunrise, sunset = self.sunset)
+    def __init__(self, sunrise: int, sunset: int):
+        self.sunrise = sunrise
+        self.sunset = sunset
+        dict.__init__(self, sunrise=self.sunrise, sunset=self.sunset)

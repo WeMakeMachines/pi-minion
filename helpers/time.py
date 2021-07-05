@@ -1,8 +1,9 @@
-import datetime;
+import datetime
 import math
 
+
 def elapsed_time_in_minutes(timestamp: float):
-    secondsInMinutes = 60
-    timeNow = datetime.datetime.now().timestamp()
-    
-    return (math.floor(timeNow) - math.floor(timestamp)) / secondsInMinutes
+    seconds_in_minutes = 60
+    time_now = datetime.datetime.now().timestamp()
+
+    return (math.floor(time_now) - math.floor(timestamp)) / seconds_in_minutes

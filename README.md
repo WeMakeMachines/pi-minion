@@ -33,6 +33,11 @@ Create a `.env` file from the `.env.example`
 
 ```
 python3 -m venv ./venv/
+```
+
+### Running
+
+```
 . venv/bin/activate
 pip install -r requirements.txt
 flask run --host=0.0.0.0
