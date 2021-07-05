@@ -9,7 +9,7 @@ logging.basicConfig(filename="pinion.weather.info.log",level=logging.INFO, forma
 
 open_weather_map = OpenWeatherMap(BaseConfig.OPEN_WEATHER_MAP_API_KEY, BaseConfig.LATITUDE, BaseConfig.LONGITUDE);
 
-weather = Blueprint("weather", __name__, url_prefix="/weather")
+weather = Blueprint("weather", __name__)
 
 def __handle_caching_props(request, get_data):
     
