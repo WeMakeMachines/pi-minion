@@ -38,6 +38,6 @@ class Caching:
 
         with open(self.__get_cache_path(), "w") as outfile:
             json.dump({
-                "timestamp": timestamp,
-                "data": data
+                "cache_timestamp": timestamp,
+                "cache": data
             }, outfile)

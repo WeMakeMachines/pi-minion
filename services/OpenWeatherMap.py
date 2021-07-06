@@ -95,7 +95,7 @@ class OpenWeatherMap:
         for item in data["hourly"]:
             hourly.append(self.__parse_hourly_object(item))
 
-        return json.dumps(hourly)
+        return hourly
 
     def daily(self):
         response = requests.get(
@@ -108,4 +108,4 @@ class OpenWeatherMap:
         for day in data["daily"]:
             daily.append(self.__parse_daily_object(day))
 
-        return json.dumps(daily)
+        return daily
