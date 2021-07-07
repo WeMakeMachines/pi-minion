@@ -3,6 +3,10 @@ import json
 import os
 
 
+class CachingError(Exception):
+    pass
+
+
 class Caching:
     @staticmethod
     def __check_path_exists(path: str):
@@ -12,8 +16,8 @@ class Caching:
     def __create_cache_dir(path: str):
         try:
             os.makedirs(path, exist_ok=True)
-        except OSError as error:
-            raise OSError(f"Directory {path} can not be created {error}")
+        except CachingError as error:
+            raise CachingError(f"Directory {path} can not be created, {error}")
 
     def __init__(self, path: str):
         self.cache_dir = f"cache/{path}"
@@ -30,8 +34,21 @@ class Caching:
         if not cache_exists:
             return None
 
-        with open(self.__get_cache_path(), "r") as openfile:
-            return json.load(openfile)
+        cache = None
+
+        try:
+            with open(self.__get_cache_path(), "r") as openfile:
+                try:
+                    cache = openfile
+                except OSError as error:
+                    raise OSError(f"Unable to open file, {error}")
+                try:
+                    return json.load(cache)
+                except Exception as error:
+                    raise Exception(f"Unable to read JSON cache, {error}")
+
+        except CachingError as error:
+            raise CachingError(f"Error reaching cache, {error}")
 
     def write(self, data):
         timestamp = datetime.datetime.now().timestamp()
