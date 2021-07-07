@@ -2,6 +2,10 @@
 
 cache/
 
+### PyCharm ###
+
+.idea/
+
 # Created by https://www.toptal.com/developers/gitignore/api/python,flask,linux,kdevelop4,kate,dotenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,flask,linux,kdevelop4,kate,dotenv
 
@@ -238,5 +242,9 @@ cython_debug/
 # pytype static type analyzer
 
 # Cython debug symbols
+
+
+# Created by https://www.toptal.com/developers/gitignore/api/pycharm
+# Edit at https://www.toptal.com/developers/gitignore?templates=pycharm
 
 # End of https://www.toptal.com/developers/gitignore/api/python,flask,linux,kdevelop4,kate,dotenv
