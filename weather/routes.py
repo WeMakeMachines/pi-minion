@@ -1,12 +1,9 @@
-import logging
 import json
 
 from config import BaseConfig
 from flask import Blueprint, request
 from services import OpenWeatherMap
 from middleware import Cacheable, set_caching_properties
-
-logging.basicConfig(filename="pinion.weather.info.log", level=logging.INFO, format="%(asctime)s:%(message)s")
 
 open_weather_map = OpenWeatherMap(BaseConfig.OPEN_WEATHER_MAP_API_KEY, BaseConfig.LATITUDE, BaseConfig.LONGITUDE)
 
@@ -20,7 +17,6 @@ def __handle_caching_props(request, get_api_data):
         cache = request.cache.read()
         response_data['cache_timestamp'] = cache['cache_timestamp']
         response_data['data'] = cache['cache']
-        logging.info("Request for data read from application cache")
 
     else:
         response_data['data'] = get_api_data()
