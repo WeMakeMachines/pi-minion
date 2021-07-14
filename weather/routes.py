@@ -9,8 +9,9 @@ weather = Blueprint("weather", __name__)
 
 
 @weather.route("/now")
-def now():
-    return open_weather_map.now()
+@cache_api_response(Valid.THIS_HOUR, open_weather_map.now)
+def now(response):
+    return response
 
 
 @weather.route("/hourly")
