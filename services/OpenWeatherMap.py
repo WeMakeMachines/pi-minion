@@ -1,7 +1,7 @@
 import requests
 import json
 
-from models.Weather import Clouds, Sun, Temperature, Wind
+from models.Weather import Clouds, Forecast, Sun, Temperature, Wind
 
 
 # Interfaces with the OpenWeatherMap API
@@ -11,7 +11,10 @@ class OpenWeatherMap:
     def __parse_hourly_object(hourly):
         return {
             "time": hourly["dt"],
-            "description": hourly["weather"][0]["description"],
+            "description": Forecast(
+                main=hourly["weather"][0]["main"],
+                description=hourly["weather"][0]["description"]
+            ),
             "clouds": Clouds(
                 cloud_cover=hourly["clouds"]
             ),
@@ -32,10 +35,12 @@ class OpenWeatherMap:
                 sunrise=daily["sunrise"],
                 sunset=daily["sunset"]
             ),
-            "wind": Wind(
-                speed=daily["wind_speed"],
-                degrees=daily["wind_deg"],
-                gust=daily["wind_gust"]
+            "description": Forecast(
+                main=daily["weather"][0]["main"],
+                description=daily["weather"][0]["description"]
+            ),
+            "clouds": Clouds(
+                cloud_cover=daily["clouds"]
             ),
             "temperature": {
                 "morning": Temperature(
@@ -60,7 +65,12 @@ class OpenWeatherMap:
                 "min": Temperature(
                     actual=daily["temp"]["min"]
                 )
-            }
+            },
+            "wind": Wind(
+                speed=daily["wind_speed"],
+                degrees=daily["wind_deg"],
+                gust=daily["wind_gust"]
+            )
         }
 
     def __init__(self, api_key: str, latitude: float, longitude: float, units: str = "metric"):

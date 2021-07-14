@@ -6,8 +6,8 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 
 ## Features
 
-- Uses OpenWeatherMap API
-- caches response data
+- Uses OpenWeatherMap API v2.5
+- Keeps a local cache of the response data
 
 ## Routes
 
@@ -21,11 +21,19 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 - python-dotenv
 - requests
 
-## Usage
+## Operation
 
-### Disable caching
+### Cache
+
+#### Disable caching
 
 If you want to disable system file writes, add to the `.env` file `DISABLE_CACHING` set to `True`
+
+#### Deleting cache
+
+Cached files are written to `/cache`
+
+To delete the cache, simply delete this folder
 
 ## Setting up development (Linux)
 
