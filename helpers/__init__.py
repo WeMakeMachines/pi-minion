@@ -1,1 +1,1 @@
-from .time import elapsed_time_in_minutes
+from .time import DateTimeComparison

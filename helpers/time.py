@@ -1,9 +1,21 @@
-import datetime
-import math
+from datetime import datetime
 
 
-def elapsed_time_in_minutes(timestamp: float):
-    seconds_in_minutes = 60
-    time_now = datetime.datetime.now().timestamp()
+class DateTimeComparison:
+    def __init__(self, timestamp: float):
+        self.datetime = datetime.fromtimestamp(timestamp)
+        self.now = datetime.now()
 
-    return (math.floor(time_now) - math.floor(timestamp)) / seconds_in_minutes
+    def has_hour_from_timestamp_passed(self):
+
+        if self.now.hour > self.datetime.hour:
+            return True
+
+        return False
+
+    def has_day_from_timestamp_passed(self):
+
+        if self.now.day > self.datetime.day:
+            return True
+
+        return False

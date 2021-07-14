@@ -2,7 +2,7 @@ from config import BaseConfig
 from enum import Enum
 from flask import make_response, request
 from functools import wraps
-from helpers import elapsed_time_in_minutes
+from helpers import DateTimeComparison
 from services import Caching
 
 
@@ -10,6 +10,11 @@ class Cacheable(Enum):
     TRUE = 1
     FALSE = 2
     DISABLE = 3
+
+
+class Valid(Enum):
+    THIS_HOUR = 1
+    TODAY = 2
 
 
 def __handle_caching(cache, is_cacheable, api_call):
@@ -29,7 +34,16 @@ def __handle_caching(cache, is_cacheable, api_call):
     return data
 
 
-def cache_api_response(cache_expiry_time_in_minutes, api_call):
+def __validate_timestamp(timestamp: float, validity_switch):
+    date_time_comparison = DateTimeComparison(timestamp)
+
+    if validity_switch == Valid.TODAY:
+        return not date_time_comparison.has_day_from_timestamp_passed()
+
+    return not date_time_comparison.has_hour_from_timestamp_passed()
+
+
+def cache_api_response(valid_for, api_call):
     def decorator(function):
         @wraps(function)
         def wrapper():
@@ -44,9 +58,9 @@ def cache_api_response(cache_expiry_time_in_minutes, api_call):
                 cache_contents = cache.read()
 
                 if cache_contents is not None:
-                    elapsed_time = elapsed_time_in_minutes(cache_contents["cache_timestamp"])
+                    is_cache_valid = __validate_timestamp(cache_contents["cache_timestamp"], valid_for)
 
-                    if elapsed_time < cache_expiry_time_in_minutes:
+                    if is_cache_valid:
                         is_cacheable = Cacheable.FALSE
 
             response = make_response(__handle_caching(cache, is_cacheable, api_call))
