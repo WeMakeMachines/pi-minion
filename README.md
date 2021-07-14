@@ -21,6 +21,12 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 - python-dotenv
 - requests
 
+## Usage
+
+### Disable caching
+
+If you want to disable system file writes, add to the `.env` file `DISABLE_CACHING` set to `True`
+
 ## Setting up development (Linux)
 
 ### Setup Python 3
