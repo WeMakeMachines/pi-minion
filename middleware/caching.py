@@ -1,6 +1,6 @@
 from config import BaseConfig
 from enum import Enum
-from flask import request
+from flask import make_response, request
 from functools import wraps
 from helpers import elapsed_time_in_minutes
 from services import Caching
@@ -12,26 +12,46 @@ class Cacheable(Enum):
     DISABLE = 3
 
 
-def set_caching_properties(cache_expiry_time_in_minutes):
+def __handle_caching(cache, is_cacheable, api_call):
+    data = {}
+
+    if is_cacheable == Cacheable.FALSE:
+        cache_contents = cache.read()
+        data['cache_timestamp'] = cache_contents['cache_timestamp']
+        data['data'] = cache_contents['cache']
+
+    else:
+        data['data'] = api_call()
+
+    if is_cacheable == Cacheable.TRUE:
+        cache.write(data['data'])
+
+    return data
+
+
+def cache_api_response(cache_expiry_time_in_minutes, api_call):
     def decorator(function):
         @wraps(function)
-        def wrapper(*args, **kwargs):
+        def wrapper():
+            cache = None
+
             if BaseConfig.DISABLE_CACHING:
-                request.cacheable = Cacheable.DISABLE
+                is_cacheable = Cacheable.DISABLE
 
             else:
-                request.cacheable = Cacheable.TRUE
-                request.cache = Caching(request.path)
+                is_cacheable = Cacheable.TRUE
+                cache = Caching(request.path)
+                cache_contents = cache.read()
 
-                cache = request.cache.read()
-
-                if cache is not None:
-                    elapsed_time = elapsed_time_in_minutes(cache["cache_timestamp"])
+                if cache_contents is not None:
+                    elapsed_time = elapsed_time_in_minutes(cache_contents["cache_timestamp"])
 
                     if elapsed_time < cache_expiry_time_in_minutes:
-                        request.cacheable = Cacheable.FALSE
+                        is_cacheable = Cacheable.FALSE
 
-            return function(*args, **kwargs)
+            response = make_response(__handle_caching(cache, is_cacheable, api_call))
+
+            return function(response)
 
         return wrapper
 

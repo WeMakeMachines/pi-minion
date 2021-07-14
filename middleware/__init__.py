@@ -1,1 +1,1 @@
-from .caching import Cacheable, set_caching_properties
+from .caching import cache_api_response

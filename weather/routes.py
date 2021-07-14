@@ -1,30 +1,11 @@
-import json
-
 from config import BaseConfig
-from flask import Blueprint, request
+from flask import Blueprint
 from services import OpenWeatherMap
-from middleware import Cacheable, set_caching_properties
+from middleware import cache_api_response
 
 open_weather_map = OpenWeatherMap(BaseConfig.OPEN_WEATHER_MAP_API_KEY, BaseConfig.LATITUDE, BaseConfig.LONGITUDE)
 
 weather = Blueprint("weather", __name__)
-
-
-def __handle_caching_props(request, get_api_data):
-    response_data = {}
-
-    if request.cacheable == Cacheable.FALSE:
-        cache = request.cache.read()
-        response_data['cache_timestamp'] = cache['cache_timestamp']
-        response_data['data'] = cache['cache']
-
-    else:
-        response_data['data'] = get_api_data()
-
-    if request.cacheable == Cacheable.TRUE:
-        request.cache.write(response_data['data'])
-
-    return response_data
 
 
 @weather.route("/now")
@@ -33,14 +14,12 @@ def now():
 
 
 @weather.route("/hourly")
-@set_caching_properties(60)
-def hourly():
-    hourly_data = __handle_caching_props(request, open_weather_map.hourly)
-    return json.dumps(hourly_data)
+@cache_api_response(60, open_weather_map.hourly)
+def hourly(response):
+    return response
 
 
 @weather.route("/daily")
-@set_caching_properties(60 * 24)
-def daily():
-    daily_data = __handle_caching_props(request, open_weather_map.daily)
-    return json.dumps(daily_data)
+@cache_api_response(60 * 60 * 24, open_weather_map.daily)
+def daily(response):
+    return response
