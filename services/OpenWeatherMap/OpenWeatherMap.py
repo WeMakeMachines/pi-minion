@@ -2,7 +2,7 @@ import requests
 import json
 
 from helpers import Units
-from .mappers import map_now, map_daily, map_hourly
+from .mappers import Mapper
 
 
 # Interfaces with the OpenWeatherMap API
@@ -20,29 +20,24 @@ class OpenWeatherMap:
 
         json_response = json.loads(response.text)
         now = json_response["current"]
+        mapped = Mapper(self.units)
 
-        return map_now(now, self.units)
+        return mapped.map_now(now)
 
     def hourly(self):
         response = requests.get(
             f"https://api.openweathermap.org/data/2.5/onecall?lat={self.latitude}&lon={self.longitude}&appid={self.api_key}&units={self.units.value}&exclude=current,minutely,daily,alerts")
 
         json_response = json.loads(response.text)
-        data = []
+        mapped = Mapper(self.units)
 
-        for hour in json_response["hourly"]:
-            data.append(map_hourly(hour, self.units))
-
-        return data
+        return mapped.map_hourly(json_response["hourly"])
 
     def daily(self):
         response = requests.get(
             f"https://api.openweathermap.org/data/2.5/onecall?lat={self.latitude}&lon={self.longitude}&appid={self.api_key}&units={self.units.value}&exclude=current,minutely,hourly,alerts")
 
         json_response = json.loads(response.text)
-        data = []
+        mapped = Mapper(self.units)
 
-        for day in json_response["daily"]:
-            data.append(map_daily(day, self.units))
-
-        return data
+        return mapped.map_daily(json_response["daily"])

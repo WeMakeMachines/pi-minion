@@ -3,86 +3,114 @@ from helpers import Units
 from .normalised import NormalisedWind
 
 
-def map_now(now, units: Units):
-    return {
-        "sun": Sun(
-            sunrise=now["sunrise"],
-            sunset=now["sunset"]
-        ),
-        "now": map_hourly(now, units)
-    }
+class Mapper:
+    def __init__(self, units: Units):
+        self.units = units
+        self.data = {
+            "units": units.value
+        }
 
-
-def map_hourly(hourly, units: Units):
-    return {
-        "time": hourly["dt"],
-        "description": Forecast(
-            main=hourly["weather"][0]["main"],
-            description=hourly["weather"][0]["description"]
-        ),
-        "clouds": Clouds(
-            cloud_cover=hourly["clouds"]
-        ),
-        "temperature": Temperature(
-            units=units,
-            actual=hourly["temp"],
-            feels_like=hourly["feels_like"]
-        ),
-        "wind": NormalisedWind(
-            units=units,
-            speed=hourly["wind_speed"],
-            degrees=hourly["wind_deg"]
-        )
-    }
-
-
-def map_daily(daily, units: Units):
-    return {
-        "sun": Sun(
-            sunrise=daily["sunrise"],
-            sunset=daily["sunset"]
-        ),
-        "description": Forecast(
-            main=daily["weather"][0]["main"],
-            description=daily["weather"][0]["description"]
-        ),
-        "clouds": Clouds(
-            cloud_cover=daily["clouds"]
-        ),
-        "temperature": {
-            "morning": Temperature(
-                units=units,
-                actual=daily["temp"]["morn"],
-                feels_like=daily["feels_like"]["morn"]
+    def __map_hour(self, hour):
+        return {
+            "time": hour["dt"],
+            "description": Forecast(
+                main=hour["weather"][0]["main"],
+                description=hour["weather"][0]["description"]
             ),
-            "day": Temperature(
-                units=units,
-                actual=daily["temp"]["day"],
-                feels_like=daily["feels_like"]["day"]
+            "clouds": Clouds(
+                cloud_cover=hour["clouds"]
             ),
-            "evening": Temperature(
-                units=units,
-                actual=daily["temp"]["eve"],
-                feels_like=daily["feels_like"]["eve"]
+            "temperature": Temperature(
+                units=self.units,
+                actual=hour["temp"],
+                feels_like=hour["feels_like"]
             ),
-            "night": Temperature(
-                units=units,
-                actual=daily["temp"]["night"],
-                feels_like=daily["feels_like"]["night"]
-            ),
-            "max": Temperature(
-                units=units,
-                actual=daily["temp"]["max"]
-            ),
-            "min": Temperature(
-                units=units,
-                actual=daily["temp"]["min"]
+            "wind": NormalisedWind(
+                units=self.units,
+                speed=hour["wind_speed"],
+                degrees=hour["wind_deg"]
             )
-        },
-        "wind": NormalisedWind(
-            units=units,
-            speed=daily["wind_speed"],
-            degrees=daily["wind_deg"],
-            gust=daily["wind_gust"]
-        )
-    }
+        }
+
+    def __map_day(self, day):
+        return {
+            "sun": Sun(
+                sunrise=day["sunrise"],
+                sunset=day["sunset"]
+            ),
+            "description": Forecast(
+                main=day["weather"][0]["main"],
+                description=day["weather"][0]["description"]
+            ),
+            "clouds": Clouds(
+                cloud_cover=day["clouds"]
+            ),
+            "temperature": {
+                "morning": Temperature(
+                    units=self.units,
+                    actual=day["temp"]["morn"],
+                    feels_like=day["feels_like"]["morn"]
+                ),
+                "day": Temperature(
+                    units=self.units,
+                    actual=day["temp"]["day"],
+                    feels_like=day["feels_like"]["day"]
+                ),
+                "evening": Temperature(
+                    units=self.units,
+                    actual=day["temp"]["eve"],
+                    feels_like=day["feels_like"]["eve"]
+                ),
+                "night": Temperature(
+                    units=self.units,
+                    actual=day["temp"]["night"],
+                    feels_like=day["feels_like"]["night"]
+                ),
+                "max": Temperature(
+                    units=self.units,
+                    actual=day["temp"]["max"]
+                ),
+                "min": Temperature(
+                    units=self.units,
+                    actual=day["temp"]["min"]
+                )
+            },
+            "wind": NormalisedWind(
+                units=self.units,
+                speed=day["wind_speed"],
+                degrees=day["wind_deg"],
+                gust=day["wind_gust"]
+            )
+        }
+
+    def map_now(self, now):
+        self.data.update({
+            "sun": Sun(
+                sunrise=now["sunrise"],
+                sunset=now["sunset"]
+            ),
+            "now": self.__map_hour(now)
+        })
+        return self.data
+
+    def map_hourly(self, hourly):
+        data = []
+
+        for hour in hourly:
+            data.append(self.__map_hour(hour))
+
+        self.data.update({
+            "hourly": data
+        })
+        return self.data
+
+    def map_daily(self, daily):
+        data = []
+
+        for day in daily:
+            data.append(self.__map_day(day))
+
+        self.data.update({
+            "daily": data
+        })
+        return self.data
