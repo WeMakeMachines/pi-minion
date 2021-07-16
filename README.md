@@ -9,19 +9,17 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 - Uses OpenWeatherMap API v2.5
 - Keeps a local cache of the response data
 
-## Routes
-
-- `/weather/now` - returns the weather now
-- `/weather/hourly` - returns the weather for the next 48 hours
-- `/weather/daily` - returns the forecast for the next 8 days
-
-## Dependencies
-
-- flask
-- python-dotenv
-- requests
-
 ## Operation
+
+### Routes
+
+- `/now` - returns the weather now
+- `/hourly` - returns the weather for the next 48 hours
+- `/daily` - returns the forecast for the next 8 days
+
+### Parameters
+
+- `units=` - can be either `metric` or `imperial`
 
 ### Cache
 
