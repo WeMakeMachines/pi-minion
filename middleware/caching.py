@@ -25,13 +25,13 @@ def __handle_caching(cache, is_cacheable: Cacheable, api_call):
     if is_cacheable is Cacheable.FALSE:
         cache_contents = cache.read()
         data['cache_timestamp'] = cache_contents['cache_timestamp']
-        data['data'] = cache_contents['cache']
+        data.update(cache_contents['cache'])
 
     else:
-        data['data'] = api_call()
+        data.update(api_call())
 
     if is_cacheable is Cacheable.TRUE:
-        cache.write(data['data'])
+        cache.write(data)
 
     return data
 
