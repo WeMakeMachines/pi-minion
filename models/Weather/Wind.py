@@ -19,4 +19,4 @@ class Wind(dict):
         self.degrees = degrees
         self.gust = gust
         self.description = self.__describe_wind_direction(self.degrees)
-        dict.__init__(self, speed=self.speed, degrees=self.degrees, gust=self.gust, description=self.description)
+        dict.__init__(self, units=self.units.value, speed=self.speed, degrees=self.degrees, gust=self.gust, description=self.description)
