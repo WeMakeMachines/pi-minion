@@ -1,4 +1,5 @@
 from dotenv import dotenv_values
+from helpers import Units
 
 config = dotenv_values(".env")
 
@@ -8,3 +9,4 @@ class BaseConfig():
     LATITUDE = config["LATITUDE"]
     LONGITUDE = config["LONGITUDE"]
     DISABLE_CACHING = True if config.get("DISABLE_CACHING") == "True" else False
+    DEFAULT_UNITS = Units.IMPERIAL if config.get("DEFAULT_UNITS") == Units.IMPERIAL.value else Units.METRIC
