@@ -1,7 +1,6 @@
 import requests
 import json
 
-from config import BaseConfig
 from helpers import Units
 from .mappers import Mapper
 
@@ -9,7 +8,7 @@ from .mappers import Mapper
 # Interfaces with the OpenWeatherMap API
 # Docs: https://openweathermap.org/api/one-call-api
 class OpenWeatherMap:
-    def __init__(self, api_key: str, latitude: float, longitude: float, default_units: Units = BaseConfig.DEFAULT_UNITS):
+    def __init__(self, api_key: str, latitude: float, longitude: float, default_units: Units):
         self.api_key = api_key
         self.latitude = latitude
         self.longitude = longitude
