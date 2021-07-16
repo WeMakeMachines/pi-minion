@@ -1,26 +1,28 @@
 from config import BaseConfig
-from enum import Enum
+from enum import Enum, unique
 from flask import make_response, request
 from functools import wraps
 from helpers import DateTimeComparison
 from services import Caching
 
 
+@unique
 class Cacheable(Enum):
     TRUE = 1
     FALSE = 2
     DISABLE = 3
 
 
+@unique
 class Valid(Enum):
     THIS_HOUR = 1
     TODAY = 2
 
 
-def __handle_caching(cache, is_cacheable, api_call):
+def __handle_caching(cache, is_cacheable: Cacheable, api_call):
     data = {}
 
-    if is_cacheable == Cacheable.FALSE:
+    if is_cacheable is Cacheable.FALSE:
         cache_contents = cache.read()
         data['cache_timestamp'] = cache_contents['cache_timestamp']
         data['data'] = cache_contents['cache']
@@ -28,16 +30,16 @@ def __handle_caching(cache, is_cacheable, api_call):
     else:
         data['data'] = api_call()
 
-    if is_cacheable == Cacheable.TRUE:
+    if is_cacheable is Cacheable.TRUE:
         cache.write(data['data'])
 
     return data
 
 
-def __validate_timestamp(timestamp: float, validity_switch):
+def __validate_timestamp(timestamp: float, validity: Valid):
     date_time_comparison = DateTimeComparison(timestamp)
 
-    if validity_switch == Valid.TODAY:
+    if validity is Valid.TODAY:
         return not date_time_comparison.has_day_from_timestamp_passed()
 
     return not date_time_comparison.has_hour_from_timestamp_passed()
