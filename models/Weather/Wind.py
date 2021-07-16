@@ -1,3 +1,6 @@
+from helpers import Units
+
+
 class Wind(dict):
     @staticmethod
     def __describe_wind_direction(degrees):
@@ -10,7 +13,8 @@ class Wind(dict):
 
         return description[(pick % cardinal_points)]
 
-    def __init__(self, speed: float, degrees: int, gust: float = None):
+    def __init__(self, units: Units, speed: float, degrees: int, gust: float = None):
+        self.units = units.speed()
         self.speed = speed
         self.degrees = degrees
         self.gust = gust
