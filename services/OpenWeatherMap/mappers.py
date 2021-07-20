@@ -1,14 +1,22 @@
-from models.Weather import Clouds, Forecast, Sun, Temperature
+from typing import TypedDict
+
+from models.Weather import Clouds, Forecast, Sun
 from helpers import Units
-from .normalised import NormalisedWind
+from .converters import ConvertedTemperature, ConvertedWind
+
+
+class MapperUnits(TypedDict):
+    base_units: Units
+    speed_units: Units
+    temperature_units: Units
 
 
 class Mapper:
-    def __init__(self, units: Units):
-        self.units = units
-        self.data = {
-            "units": units.value
-        }
+    def __init__(self, units: MapperUnits):
+        self.base_units = units["base_units"]
+        self.speed_units = units["speed_units"]
+        self.temperature_units = units["temperature_units"]
+        self.data = {}
 
     def __map_hour(self, hour):
         return {
@@ -20,13 +28,15 @@ class Mapper:
             "clouds": Clouds(
                 cloud_cover=hour["clouds"]
             ),
-            "temperature": Temperature(
-                units=self.units,
+            "temperature": ConvertedTemperature(
+                base_units=self.base_units,
+                units=self.temperature_units,
                 actual=hour["temp"],
                 feels_like=hour["feels_like"]
             ),
-            "wind": NormalisedWind(
-                units=self.units,
+            "wind": ConvertedWind(
+                base_units=self.base_units,
+                units=self.speed_units,
                 speed=hour["wind_speed"],
                 degrees=hour["wind_deg"]
             )
@@ -46,37 +56,44 @@ class Mapper:
                 cloud_cover=day["clouds"]
             ),
             "temperature": {
-                "morning": Temperature(
-                    units=self.units,
+                "morning": ConvertedTemperature(
+                    base_units=self.base_units,
+                    units=self.temperature_units,
                     actual=day["temp"]["morn"],
                     feels_like=day["feels_like"]["morn"]
                 ),
-                "day": Temperature(
-                    units=self.units,
+                "day": ConvertedTemperature(
+                    base_units=self.base_units,
+                    units=self.temperature_units,
                     actual=day["temp"]["day"],
                     feels_like=day["feels_like"]["day"]
                 ),
-                "evening": Temperature(
-                    units=self.units,
+                "evening": ConvertedTemperature(
+                    base_units=self.base_units,
+                    units=self.temperature_units,
                     actual=day["temp"]["eve"],
                     feels_like=day["feels_like"]["eve"]
                 ),
-                "night": Temperature(
-                    units=self.units,
+                "night": ConvertedTemperature(
+                    base_units=self.base_units,
+                    units=self.temperature_units,
                     actual=day["temp"]["night"],
                     feels_like=day["feels_like"]["night"]
                 ),
-                "max": Temperature(
-                    units=self.units,
+                "max": ConvertedTemperature(
+                    base_units=self.base_units,
+                    units=self.temperature_units,
                     actual=day["temp"]["max"]
                 ),
-                "min": Temperature(
-                    units=self.units,
+                "min": ConvertedTemperature(
+                    base_units=self.base_units,
+                    units=self.temperature_units,
                     actual=day["temp"]["min"]
                 )
             },
-            "wind": NormalisedWind(
-                units=self.units,
+            "wind": ConvertedWind(
+                base_units=self.base_units,
+                units=self.speed_units,
                 speed=day["wind_speed"],
                 degrees=day["wind_deg"],
                 gust=day["wind_gust"]
@@ -94,23 +111,21 @@ class Mapper:
         return self.data
 
     def map_hourly(self, hourly):
-        data = []
+        self.data.update({
+            "hourly": []
+        })
 
         for hour in hourly:
-            data.append(self.__map_hour(hour))
+            self.data["hourly"].append(self.__map_hour(hour))
 
-        self.data.update({
-            "hourly": data
-        })
         return self.data
 
     def map_daily(self, daily):
-        data = []
+        self.data.update({
+            "daily": []
+        })
 
         for day in daily:
-            data.append(self.__map_day(day))
+            self.data["daily"].append(self.__map_day(day))
 
-        self.data.update({
-            "daily": data
-        })
         return self.data

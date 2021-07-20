@@ -1,2 +1,2 @@
 from .time import DateTimeComparison
-from .units import Units, Temperature, Speed
+from .units import Units, TemperatureUnits, SpeedUnits
