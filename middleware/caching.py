@@ -58,7 +58,7 @@ def cache_api_response(valid_for, api_call):
 
             else:
                 is_cacheable = Cacheable.TRUE
-                cache = Caching(request.path)
+                cache = Caching(request.full_path)
                 cache_contents = cache.read()
 
                 if cache_contents is not None:
