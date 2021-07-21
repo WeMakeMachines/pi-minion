@@ -8,6 +8,7 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 
 - Uses OpenWeatherMap API v2.5
 - Keeps a local cache of the response data
+- Allows mixing of units as metric / imperial for speed and temperature
 
 ## Operation
 
@@ -19,7 +20,8 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 
 ### Parameters
 
-- `units=` - can be either `metric` or `imperial`
+- `speed=` - can be either `metric` or `imperial`
+- `temperature=` - can be either `metric` or `imperial`
 
 ### Cache
 
