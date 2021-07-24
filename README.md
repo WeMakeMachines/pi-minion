@@ -35,24 +35,33 @@ Cached files are written to `/cache`
 
 To delete the cache, simply delete this folder
 
-## Setting up development (Linux)
+## Installation and Usage
 
-### Setup Python 3
+1. Make sure you have met the following dependencies on your system:
+   - python 3.9.5
+   - pip
+   - python venv
+   
+2. Create a `.env` file from the `.env.example`
+   
+    `python3 -m venv ./venv/`
 
-`sudo apt-get install python3 python-pip python3-venv`
+3. Activate the virtual environment
+   
+    `. venv/bin/activate`
+   
+4. Install the requirements
+   
+    `pip install -r requirements.txt`
 
-### Setup
+### Deploying on Linux
 
-Create a `.env` file from the `.env.example`
+Running the following script will setup pinion.weather as a service on Linux
 
-```
-python3 -m venv ./venv/
-```
+`./register-service.sh`
 
-### Running
+### Development on Linux
 
-```
-. venv/bin/activate
-pip install -r requirements.txt
-flask run --host=0.0.0.0
-```
+To test the server, run the following command within the virtual environment
+
+`flask run --host=0.0.0.0`
