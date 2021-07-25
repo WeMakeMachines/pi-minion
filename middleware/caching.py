@@ -1,3 +1,5 @@
+import json
+
 from enum import Enum, unique
 from functools import wraps
 from helpers import DateTimeComparison
@@ -58,7 +60,7 @@ def cache_api_response(valid_for, api_call):
 
             else:
                 is_cacheable = Cacheable.TRUE
-                cache = Caching(request.full_path)
+                cache = Caching(request.path + json.dumps(request.args))
                 cache_contents = cache.read()
 
                 if cache_contents is not None:
