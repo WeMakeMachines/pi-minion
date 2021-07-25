@@ -38,9 +38,11 @@ To delete the cache, simply delete this folder
 ## Installation and Usage
 
 1. Make sure you have met the following dependencies on your system:
-   - python 3.9.5
-   - pip
+   - python >= 3.9.5
+   - python pip
    - python venv
+   
+   See the guide [Installing Python Dependencies on Linux](./INSTALLING_PYTHON_DEPENDENCIES.md)
    
 2. Create a `.env` file from the `.env.example`
    
@@ -56,7 +58,7 @@ To delete the cache, simply delete this folder
 
 ### Deploying on Linux
 
-Running the following script will setup pinion.weather as a service on Linux
+Running the following script will setup **pinion.weather** as a systemd service on Linux
 
 `./register-service.sh`
 
