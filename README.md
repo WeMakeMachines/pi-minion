@@ -3,12 +3,14 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 # pinion.weather 😈⛅
 
 - a small weather microservice
+- can be configured for static or mobile systems
 
 ## Features
 
 - Uses OpenWeatherMap API v2.5
 - Keeps a local cache of the response data
 - Allows mixing of units as metric / imperial for speed and temperature
+- Can be configured for a static location
 
 ## Operation
 
@@ -18,10 +20,14 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 - `/hourly` - returns the weather for the next 48 hours
 - `/daily` - returns the forecast for the next 8 days
 
-### Parameters
+### Optional Parameters
+
+The following parameters can be omitted, if the server has been setup with defaults
 
 - `speed=` - can be either `metric` or `imperial`
-- `temperature=` - can be either `metric` or `imperial`
+- `temp=` - can be either `metric` or `imperial`
+- `lat=` - latitude co-ordinate
+- `long=` - longitude co-ordinate
 
 ### Cache
 
