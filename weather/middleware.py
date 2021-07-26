@@ -3,7 +3,7 @@ from flask import request
 from werkzeug.datastructures import OrderedMultiDict
 
 
-# organise the client params into a specific order
+# organise the client params into a specific order, and fill in default values
 def normalise_weather_params(function):
     def decorator():
         units_params = {

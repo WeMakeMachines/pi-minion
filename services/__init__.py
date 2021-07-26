@@ -1,2 +1,2 @@
-from .Caching import Caching
-from .OpenWeatherMap import OpenWeatherMapNow, OpenWeatherMapHourly, OpenWeatherMapDaily
+from .CachedOpenWeatherMap import CachedOpenWeatherMap
+from .FileCache import FileCache

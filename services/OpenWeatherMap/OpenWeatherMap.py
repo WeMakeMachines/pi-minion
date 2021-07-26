@@ -2,7 +2,7 @@ import requests
 import json
 
 from helpers import Units
-from .mappers import Mapper, MapperUnits, Location
+from .mappers import Mapper, MapperUnits
 
 
 class OpenWeatherMapError(Exception):
@@ -22,8 +22,7 @@ class OpenWeatherMap:
             speed_units: Units,
             temperature_units: Units,
             latitude: float,
-            longitude: float,
-            url: str
+            longitude: float
     ):
         if api_key is None:
             raise OpenWeatherMapError("OpenWeatherMap API Key not found")
@@ -34,10 +33,16 @@ class OpenWeatherMap:
         self.temperature_units = temperature_units
         self.latitude = latitude
         self.longitude = longitude
-        self.url = f"{self.base_url}/{self.one_call_route}?lat={latitude}&lon={longitude}&appid={api_key}&units={base_units.value}&{url}"
-        self.data = self.get_json_from_request()
+        self.url = f"{self.base_url}/{self.one_call_route}?lat={latitude}&lon={longitude}&appid={api_key}&units={base_units.value}"
+        self.raw_response = {}
+        self.parsed_data = {
+            "location": {
+                "latitude": self.latitude,
+                "longitude": self.longitude
+            }
+        }
 
-    def get_json_from_request(self):
+    def call(self):
         response = requests.get(self.url)
         return json.loads(response.text)
 
@@ -47,12 +52,17 @@ class OpenWeatherMap:
                 base_units=self.base_units,
                 speed_units=self.speed_units,
                 temperature_units=self.temperature_units
-            ),
-            location=Location(
-                latitude=self.latitude,
-                longitude=self.longitude
             )
         )
 
-    def call(self):
-        raise OpenWeatherMapError("Method not implemented")
+    def now(self):
+        self.parsed_data.update(self.mapper().map_now(self.raw_response["current"]))
+        return self.parsed_data
+
+    def hourly(self):
+        self.parsed_data.update(self.mapper().map_hourly(self.raw_response["hourly"]))
+        return self.parsed_data
+
+    def daily(self):
+        self.parsed_data.update(self.mapper().map_daily(self.raw_response["daily"]))
+        return self.parsed_data

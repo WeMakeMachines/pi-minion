@@ -4,11 +4,11 @@ import json
 import os
 
 
-class CachingError(Exception):
+class FileCacheError(Exception):
     pass
 
 
-class Caching:
+class FileCache:
     @staticmethod
     def hash_path(string: str):
         return hashlib.sha256(string.encode('utf-8')).hexdigest()
@@ -21,20 +21,20 @@ class Caching:
     def create_cache_dir(path: str):
         try:
             os.makedirs(path, exist_ok=True)
-        except CachingError as error:
-            raise CachingError(f"Directory {path} can not be created, {error}")
+        except FileCacheError as error:
+            raise FileCacheError(f"Directory {path} can not be created, {error}")
 
     def __init__(self, path: str):
-        self.cache_dir = f"cache/{Caching.hash_path(path)}"
+        self.cache_dir = f"cache/{FileCache.hash_path(path)}"
 
-        if not Caching.check_path_exists(self.cache_dir):
-            Caching.create_cache_dir(self.cache_dir)
+        if not FileCache.check_path_exists(self.cache_dir):
+            FileCache.create_cache_dir(self.cache_dir)
 
     def __get_cache_path(self):
         return f"{self.cache_dir}/data.json"
 
     def read(self):
-        cache_exists = Caching.check_path_exists(self.__get_cache_path())
+        cache_exists = FileCache.check_path_exists(self.__get_cache_path())
         if not cache_exists:
             return None
 
@@ -51,8 +51,8 @@ class Caching:
                 except Exception as error:
                     raise Exception(f"Unable to read JSON cache, {error}")
 
-        except CachingError as error:
-            raise CachingError(f"Error reaching cache, {error}")
+        except FileCacheError as error:
+            raise FileCacheError(f"Error reaching cache, {error}")
 
     def write(self, data):
         timestamp = datetime.datetime.now().timestamp()

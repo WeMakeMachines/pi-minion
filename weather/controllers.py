@@ -1,6 +1,6 @@
 from config import BaseConfig
 from flask import request
-from services import OpenWeatherMapNow, OpenWeatherMapHourly, OpenWeatherMapDaily
+from services import CachedOpenWeatherMap
 from helpers import Units
 
 
@@ -19,9 +19,9 @@ class WeatherArgs:
             return Units.METRIC
 
 
-def call_api(api):
+def open_weather_map():
     weather_args = WeatherArgs()
-    open_weather_map = api(
+    return CachedOpenWeatherMap(
         api_key=BaseConfig.OPEN_WEATHER_MAP_API_KEY,
         base_units=BaseConfig.BASE_UNITS,
         speed_units=weather_args.speed_units,
@@ -30,16 +30,14 @@ def call_api(api):
         longitude=weather_args.longitude
     )
 
-    return open_weather_map.call()
-
 
 def open_weather_map_now():
-    return call_api(OpenWeatherMapNow)
+    return open_weather_map().now()
 
 
 def open_weather_map_hourly():
-    return call_api(OpenWeatherMapHourly)
+    return open_weather_map().hourly()
 
 
 def open_weather_map_daily():
-    return call_api(OpenWeatherMapDaily)
+    return open_weather_map().daily()

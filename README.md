@@ -31,9 +31,15 @@ The following parameters can be omitted, if the server has been setup with defau
 
 ### Cache
 
-#### Disable caching
+#### Options
 
-If you want to disable system file writes, add to the `.env` file `DISABLE_CACHING` set to `True`
+Possible options for `CACHE_VALIDITY` in `.env`
+
+- hour - cache only valid for until the end of the current hour
+- today - cache only valid for today (up till midnight)
+- disable - disables all cache requests
+
+> Note: If you want to disable system file writes, set `CACHE_VALIDITY` to `disable`
 
 #### Deleting cache
 

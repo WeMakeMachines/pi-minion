@@ -1,3 +1,1 @@
-from .OpenWeatherMapNow import OpenWeatherMapNow
-from .OpenWeatherMapHourly import OpenWeatherMapHourly
-from .OpenWeatherMapDaily import OpenWeatherMapDaily
+from .OpenWeatherMap import OpenWeatherMap

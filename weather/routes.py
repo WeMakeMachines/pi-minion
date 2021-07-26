@@ -1,5 +1,4 @@
 from flask import Blueprint
-from middleware import cache_api_response, Valid
 from .middleware import normalise_weather_params
 from .controllers import open_weather_map_now, open_weather_map_daily, open_weather_map_hourly
 
@@ -13,18 +12,15 @@ def __normalise_weather_params():
 
 
 @weather.route("/now")
-@cache_api_response(Valid.THIS_HOUR, open_weather_map_now)
-def now(response):
-    return response
+def now():
+    return open_weather_map_now()
 
 
 @weather.route("/hourly")
-@cache_api_response(Valid.THIS_HOUR, open_weather_map_hourly)
-def hourly(response):
-    return response
+def hourly():
+    return open_weather_map_hourly()
 
 
 @weather.route("/daily")
-@cache_api_response(Valid.TODAY, open_weather_map_daily)
-def daily(response):
-    return response
+def daily():
+    return open_weather_map_daily()
