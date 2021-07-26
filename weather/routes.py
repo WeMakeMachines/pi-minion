@@ -1,4 +1,5 @@
 from flask import Blueprint
+
 from .middleware import normalise_weather_params
 from .controllers import open_weather_map_now, open_weather_map_daily, open_weather_map_hourly
 

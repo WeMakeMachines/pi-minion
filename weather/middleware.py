@@ -1,6 +1,7 @@
-from config import BaseConfig
 from flask import request
 from werkzeug.datastructures import OrderedMultiDict
+
+from config import BaseConfig
 
 
 # organise the client params into a specific order, and fill in default values
@@ -30,6 +31,11 @@ def normalise_weather_params(function):
                 ordered_params[param] = client_value
             else:
                 ordered_params[param] = location_params[param]
+
+        if request.args.get('nocache') is not None:
+            ordered_params['nocache'] = True
+        else:
+            ordered_params['nocache'] = False
 
         request.parameter_storage_class = OrderedMultiDict
         request.args = ordered_params

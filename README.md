@@ -28,6 +28,7 @@ The following parameters can be omitted, if the server has been setup with defau
 - `temp=` - can be either `metric` or `imperial`
 - `lat=` - latitude co-ordinate
 - `long=` - longitude co-ordinate
+- `nocache=` - force pinion.weather to make a fresh request
 
 ### Cache
 

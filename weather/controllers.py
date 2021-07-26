@@ -1,5 +1,6 @@
-from config import BaseConfig
 from flask import request
+
+from config import BaseConfig
 from services import CachedOpenWeatherMap
 from helpers import Units
 
@@ -10,6 +11,7 @@ class WeatherArgs:
         self.temperature_units = WeatherArgs.__get_units(request.args.get('temp'))
         self.latitude = request.args.get('lat')
         self.longitude = request.args.get('long')
+        self.nocache = request.args.get('nocache')
 
     @staticmethod
     def __get_units(arg):
@@ -27,7 +29,8 @@ def open_weather_map():
         speed_units=weather_args.speed_units,
         temperature_units=weather_args.temperature_units,
         latitude=weather_args.latitude,
-        longitude=weather_args.longitude
+        longitude=weather_args.longitude,
+        nocache=weather_args.nocache
     )
 
 
