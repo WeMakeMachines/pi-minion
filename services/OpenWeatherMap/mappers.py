@@ -11,8 +11,13 @@ class MapperUnits(TypedDict):
     temperature_units: Units
 
 
+class Location(TypedDict):
+    latitude: float
+    longitude: float
+
+
 class Mapper:
-    def __init__(self, units: MapperUnits):
+    def __init__(self, units: MapperUnits, location: Location):
         self.base_units = units["base_units"]
         self.speed_units = units["speed_units"]
         self.temperature_units = units["temperature_units"]

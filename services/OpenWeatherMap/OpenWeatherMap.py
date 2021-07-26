@@ -2,7 +2,11 @@ import requests
 import json
 
 from helpers import Units
-from .mappers import Mapper, MapperUnits
+from .mappers import Mapper, MapperUnits, Location
+
+
+class OpenWeatherMapError(Exception):
+    pass
 
 
 # Interfaces with the OpenWeatherMap API
@@ -11,41 +15,44 @@ class OpenWeatherMap:
     base_url = "https://api.openweathermap.org"
     one_call_route = "data/2.5/onecall"
 
-    def __init__(self, api_key: str, base_units: Units):
+    def __init__(
+            self,
+            api_key: str,
+            base_units: Units,
+            speed_units: Units,
+            temperature_units: Units,
+            latitude: float,
+            longitude: float,
+            url: str
+    ):
+        if api_key is None:
+            raise OpenWeatherMapError("OpenWeatherMap API Key not found")
+
         self.api_key = api_key
         self.base_units = base_units
+        self.speed_units = speed_units
+        self.temperature_units = temperature_units
+        self.latitude = latitude
+        self.longitude = longitude
+        self.url = f"{self.base_url}/{self.one_call_route}?lat={latitude}&lon={longitude}&appid={api_key}&units={base_units.value}&{url}"
+        self.data = self.get_json_from_request()
 
-    @staticmethod
-    def get_json_from_request(url):
-        response = requests.get(url)
+    def get_json_from_request(self):
+        response = requests.get(self.url)
         return json.loads(response.text)
 
-    def now(self, speed_units: Units, temperature_units: Units, latitude: float, longitude: float):
-        url = f"{self.base_url}/{self.one_call_route}?lat={latitude}&lon={longitude}&appid={self.api_key}&units={self.base_units.value}&exclude=minutely,hourly,daily,alerts"
-        json_response = OpenWeatherMap.get_json_from_request(url)
-        mapped = Mapper(MapperUnits(
-            base_units=self.base_units,
-            speed_units=speed_units,
-            temperature_units=temperature_units))
+    def mapper(self):
+        return Mapper(
+            units=MapperUnits(
+                base_units=self.base_units,
+                speed_units=self.speed_units,
+                temperature_units=self.temperature_units
+            ),
+            location=Location(
+                latitude=self.latitude,
+                longitude=self.longitude
+            )
+        )
 
-        return mapped.map_now(json_response["current"])
-
-    def hourly(self, speed_units: Units, temperature_units: Units, latitude: float, longitude: float):
-        url = f"{self.base_url}/{self.one_call_route}?lat={latitude}&lon={longitude}&appid={self.api_key}&units={self.base_units.value}&exclude=current,minutely,daily,alerts"
-        json_response = OpenWeatherMap.get_json_from_request(url)
-        mapped = Mapper(MapperUnits(
-            base_units=self.base_units,
-            speed_units=speed_units,
-            temperature_units=temperature_units))
-
-        return mapped.map_hourly(json_response["hourly"])
-
-    def daily(self, speed_units: Units, temperature_units: Units, latitude: float, longitude: float):
-        url = f"{self.base_url}/{self.one_call_route}?lat={latitude}&lon={longitude}&appid={self.api_key}&units={self.base_units.value}&exclude=current,minutely,hourly,alerts"
-        json_response = OpenWeatherMap.get_json_from_request(url)
-        mapped = Mapper(MapperUnits(
-            base_units=self.base_units,
-            speed_units=speed_units,
-            temperature_units=temperature_units))
-
-        return mapped.map_daily(json_response["daily"])
+    def call(self):
+        raise OpenWeatherMapError("Method not implemented")
