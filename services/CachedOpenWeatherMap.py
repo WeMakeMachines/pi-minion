@@ -1,7 +1,7 @@
 from .OpenWeatherMap import OpenWeatherMap
 from .FileCache import FileCache
 from config import BaseConfig
-from helpers import Cacheable, CacheValidity, DateTimeComparison
+from helpers import CacheValidity, DateTimeComparison
 
 
 class CachedOpenWeatherMap(OpenWeatherMap):
@@ -33,10 +33,10 @@ class CachedOpenWeatherMap(OpenWeatherMap):
         )
 
         self.cache = None
-        self.is_cacheable = Cacheable.DISABLE
 
-        if BaseConfig.CACHE_VALIDITY is not CacheValidity.DISABLE:
-            self.is_cacheable = Cacheable.TRUE
+        if BaseConfig.CACHE_VALIDITY is CacheValidity.DISABLE:
+            self.use_request()
+        else:
             self.cache = FileCache('open_weather_map')
             cache_contents = self.cache.read()
 
@@ -47,18 +47,18 @@ class CachedOpenWeatherMap(OpenWeatherMap):
                 )
 
                 if is_cache_valid:
-                    self.is_cacheable = Cacheable.FALSE
+                    self.use_cache()
+            else:
+                self.use_request()
+                self.write_cache()
 
-        self.handle_caching()
+    def use_request(self):
+        self.raw_response.update(self.call())
 
-    def handle_caching(self):
-        if self.is_cacheable is Cacheable.FALSE:
-            cache_contents = self.cache.read()
-            self.parsed_data['cache_timestamp'] = cache_contents['cache_timestamp']
-            self.raw_response.update(cache_contents['cache'])
+    def use_cache(self):
+        cache_contents = self.cache.read()
+        self.parsed_data['cache_timestamp'] = cache_contents['cache_timestamp']
+        self.raw_response.update(cache_contents['cache'])
 
-        else:
-            self.raw_response.update(self.call())
-
-        if self.is_cacheable is Cacheable.TRUE:
-            self.cache.write(self.raw_response)
+    def write_cache(self):
+        self.cache.write(self.raw_response)
