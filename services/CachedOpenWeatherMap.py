@@ -23,7 +23,8 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             latitude: float,
             longitude: float,
             nocache: bool,
-            cache_key: str
+            cache_key: str,
+            language: str
     ):
         super().__init__(
             api_key,
@@ -31,7 +32,8 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             speed_units,
             temperature_units,
             latitude,
-            longitude
+            longitude,
+            language
         )
 
         self.cache = None

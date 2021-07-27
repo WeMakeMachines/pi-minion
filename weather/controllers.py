@@ -5,14 +5,7 @@ from services import CachedOpenWeatherMap
 from helpers import Units
 
 
-class WeatherArgs:
-    def __init__(self):
-        self.speed_units = WeatherArgs.__get_units(request.args.get('speed'))
-        self.temperature_units = WeatherArgs.__get_units(request.args.get('temp'))
-        self.latitude = request.args.get('lat')
-        self.longitude = request.args.get('long')
-        self.nocache = request.args.get('nocache')
-
+class WeatherParams:
     @staticmethod
     def __get_units(arg):
         if arg == Units.IMPERIAL.value:
@@ -20,9 +13,16 @@ class WeatherArgs:
         else:
             return Units.METRIC
 
+    def __init__(self):
+        self.speed_units = WeatherParams.__get_units(request.args.get("speed"))
+        self.temperature_units = WeatherParams.__get_units(request.args.get("temp"))
+        self.latitude = request.args.get("lat")
+        self.longitude = request.args.get("long")
+        self.nocache = request.args.get("nocache")
+
 
 def open_weather_map():
-    weather_args = WeatherArgs()
+    weather_args = WeatherParams()
     cache_key = f"${weather_args.latitude}{weather_args.longitude}"
 
     return CachedOpenWeatherMap(
@@ -33,7 +33,8 @@ def open_weather_map():
         latitude=weather_args.latitude,
         longitude=weather_args.longitude,
         nocache=weather_args.nocache,
-        cache_key=cache_key
+        cache_key=cache_key,
+        language=BaseConfig.LANGUAGE
     )
 
 

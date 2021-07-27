@@ -10,3 +10,4 @@ class BaseConfig:
     LONGITUDE = config["LONGITUDE"]
     CACHE_VALIDITY = CacheValidity(config.get("CACHE_VALIDITY")) if config.get("CACHE_VALIDITY") is not None else CacheValidity.DISABLE
     BASE_UNITS = Units.IMPERIAL if config.get("DEFAULT_UNITS") == Units.IMPERIAL.value else Units.METRIC
+    LANGUAGE = config["LANGUAGE"] if config.get("DEFAULT_UNITS") is not None else "en"
