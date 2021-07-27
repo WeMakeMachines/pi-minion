@@ -22,17 +22,17 @@ class WeatherParams:
 
 
 def open_weather_map():
-    weather_args = WeatherParams()
-    cache_key = f"${weather_args.latitude}{weather_args.longitude}"
+    weather_params = WeatherParams()
+    cache_key = f"${weather_params.latitude}{weather_params.longitude}"
 
     return CachedOpenWeatherMap(
         api_key=BaseConfig.OPEN_WEATHER_MAP_API_KEY,
         base_units=BaseConfig.BASE_UNITS,
-        speed_units=weather_args.speed_units,
-        temperature_units=weather_args.temperature_units,
-        latitude=weather_args.latitude,
-        longitude=weather_args.longitude,
-        nocache=weather_args.nocache,
+        speed_units=weather_params.speed_units,
+        temperature_units=weather_params.temperature_units,
+        latitude=weather_params.latitude,
+        longitude=weather_params.longitude,
+        nocache=weather_params.nocache,
         cache_key=cache_key,
         language=BaseConfig.LANGUAGE
     )
