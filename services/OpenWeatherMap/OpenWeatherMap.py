@@ -25,9 +25,6 @@ class OpenWeatherMap:
             longitude: float,
             language: str
     ):
-        if api_key is None:
-            raise OpenWeatherMapError("OpenWeatherMap API Key not found")
-
         self.api_key = api_key
         self.base_units = base_units
         self.speed_units = speed_units
