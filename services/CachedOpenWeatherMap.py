@@ -22,7 +22,8 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             temperature_units: Units,
             latitude: float,
             longitude: float,
-            nocache: bool
+            nocache: bool,
+            cache_key: str
     ):
         super().__init__(
             api_key,
@@ -38,7 +39,7 @@ class CachedOpenWeatherMap(OpenWeatherMap):
         if BaseConfig.CACHE_VALIDITY is CacheValidity.DISABLE or nocache is True:
             self.use_request()
         else:
-            self.cache = FileCache('open_weather_map')
+            self.cache = FileCache(cache_key)
             cache_contents = self.cache.read()
 
             if cache_contents is not None:

@@ -23,6 +23,8 @@ class WeatherArgs:
 
 def open_weather_map():
     weather_args = WeatherArgs()
+    cache_key = f"${weather_args.latitude}{weather_args.longitude}"
+
     return CachedOpenWeatherMap(
         api_key=BaseConfig.OPEN_WEATHER_MAP_API_KEY,
         base_units=BaseConfig.BASE_UNITS,
@@ -30,7 +32,8 @@ def open_weather_map():
         temperature_units=weather_args.temperature_units,
         latitude=weather_args.latitude,
         longitude=weather_args.longitude,
-        nocache=weather_args.nocache
+        nocache=weather_args.nocache,
+        cache_key=cache_key
     )
 
 

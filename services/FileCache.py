@@ -10,7 +10,7 @@ class FileCacheError(Exception):
 
 class FileCache:
     @staticmethod
-    def hash_path(string: str):
+    def hash(string: str):
         return hashlib.sha256(string.encode('utf-8')).hexdigest()
 
     @staticmethod
@@ -24,8 +24,8 @@ class FileCache:
         except FileCacheError as error:
             raise FileCacheError(f"Directory {path} can not be created, {error}")
 
-    def __init__(self, path: str):
-        self.cache_dir = f"cache/{FileCache.hash_path(path)}"
+    def __init__(self, key: str):
+        self.cache_dir = f"cache/{FileCache.hash(key)}"
 
         if not FileCache.check_path_exists(self.cache_dir):
             FileCache.create_cache_dir(self.cache_dir)
