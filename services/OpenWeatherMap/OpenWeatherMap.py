@@ -37,8 +37,8 @@ class OpenWeatherMap:
         self.raw_response = {}
         self.parsed_data = {
             "location": {
-                "latitude": self.latitude,
-                "longitude": self.longitude
+                "lat": self.latitude,
+                "long": self.longitude
             }
         }
 
