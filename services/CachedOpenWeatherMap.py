@@ -40,21 +40,23 @@ class CachedOpenWeatherMap(OpenWeatherMap):
 
         if BaseConfig.CACHE_VALIDITY is CacheValidity.DISABLE or nocache is True:
             self.use_request()
-        else:
-            self.cache = FileCache(cache_key)
-            cache_contents = self.cache.read()
+            return
 
-            if cache_contents is not None:
-                is_cache_valid = CachedOpenWeatherMap.validate_timestamp(
-                    timestamp=cache_contents["cache_timestamp"],
-                    validity=BaseConfig.CACHE_VALIDITY
-                )
+        self.cache = FileCache(cache_key)
+        cache_contents = self.cache.read()
 
-                if is_cache_valid:
-                    self.use_cache()
-            else:
-                self.use_request()
-                self.write_cache()
+        if cache_contents is not None:
+            is_cache_valid = CachedOpenWeatherMap.validate_timestamp(
+                timestamp=cache_contents["cache_timestamp"],
+                validity=BaseConfig.CACHE_VALIDITY
+            )
+
+            if is_cache_valid:
+                self.use_cache()
+                return
+
+        self.use_request()
+        self.write_cache()
 
     def use_request(self):
         self.raw_response.update(self.call())
