@@ -8,7 +8,7 @@ class Clouds(dict):
 
         return description[pick]
 
-    def __init__(self, cloud_cover: int):
-        self.cloud_cover = cloud_cover
-        self.description = self.__describe_cloud_cover(self.cloud_cover)
-        dict.__init__(self, cloud_cover=self.cloud_cover, description=self.description)
+    def __init__(self, cover: int):
+        self.cover = cover
+        self.description = self.__describe_cloud_cover(self.cover)
+        dict.__init__(self, cover=self.cover, description=self.description)

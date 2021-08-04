@@ -26,7 +26,7 @@ class Mapper:
                 text=hour["weather"][0]["description"]
             ),
             "clouds": Clouds(
-                cloud_cover=hour["clouds"]
+                cover=hour["clouds"]
             ),
             "temperature": ConvertedTemperature(
                 base_units=self.base_units,
@@ -53,7 +53,7 @@ class Mapper:
                 text=day["weather"][0]["description"]
             ),
             "clouds": Clouds(
-                cloud_cover=day["clouds"]
+                cover=day["clouds"]
             ),
             "temperature": {
                 "morning": ConvertedTemperature(
