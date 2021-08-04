@@ -23,7 +23,7 @@ class Mapper:
             "time": hour["dt"],
             "description": Forecast(
                 main=hour["weather"][0]["main"],
-                description=hour["weather"][0]["description"]
+                text=hour["weather"][0]["description"]
             ),
             "clouds": Clouds(
                 cloud_cover=hour["clouds"]
@@ -50,7 +50,7 @@ class Mapper:
             ),
             "description": Forecast(
                 main=day["weather"][0]["main"],
-                description=day["weather"][0]["description"]
+                text=day["weather"][0]["description"]
             ),
             "clouds": Clouds(
                 cloud_cover=day["clouds"]
