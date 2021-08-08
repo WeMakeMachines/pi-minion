@@ -101,13 +101,18 @@ class Mapper:
         }
 
     def map_now(self, now):
+        mapped_now = self.__map_hour(now)
+
+        for key in mapped_now:
+            self.data[key] = mapped_now[key]
+
         self.data.update({
             "sun": Sun(
                 sunrise=now["sunrise"],
                 sunset=now["sunset"]
             ),
-            "now": self.__map_hour(now)
         })
+
         return self.data
 
     def map_hourly(self, hourly):
