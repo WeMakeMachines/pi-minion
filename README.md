@@ -34,11 +34,14 @@ The following parameters can be omitted, if the server has been setup with defau
 
 #### Options
 
-Possible options for `CACHE_VALIDITY` in `.env`
+Possible options for `CACHE_EXPIRES_AFTER` in `.env`
 
-- hour - cache only valid for until the end of the current hour
-- today - cache only valid for today (up till midnight)
-- disable - disables all cache requests
+##### integer
+- number of minutes the cache is valid for, i.e, _60_ for 1 hour
+
+##### string
+- _today_ - cache only valid for today (up till midnight)
+- _disable_ - disables all cache requests
 
 > Note: If you want to disable system file writes, set `CACHE_VALIDITY` to `disable`
 

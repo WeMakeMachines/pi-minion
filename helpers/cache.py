@@ -2,7 +2,6 @@ from enum import Enum, unique
 
 
 @unique
-class CacheValidity(Enum):
-    HOUR = "hour"
+class CacheExpiresAfter(Enum):
     TODAY = "today"
     DISABLE = "disable"

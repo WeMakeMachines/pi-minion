@@ -12,10 +12,10 @@ class DateTimeComparison:
 
         return diff_in_minutes
 
-    def has_hour_from_timestamp_passed(self):
+    def has_time_from_timestamp_passed(self, minutes: int):
         diff_in_minutes = self.get_diff_in_minutes()
 
-        if diff_in_minutes > 60:
+        if diff_in_minutes > minutes:
             return True
 
         return False

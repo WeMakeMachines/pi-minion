@@ -1,17 +1,20 @@
-from helpers import CacheValidity, DateTimeComparison, Units
+from helpers import CacheExpiresAfter, DateTimeComparison, Units
 from API import OpenWeatherMap
 from .FileCache import FileCache
 
 
 class CachedOpenWeatherMap(OpenWeatherMap):
     @staticmethod
-    def validate_timestamp(timestamp: float, validity: CacheValidity):
+    def validate_cache_timestamp(timestamp: float, cache_expires_after: CacheExpiresAfter or int) -> bool:
         date_time_comparison = DateTimeComparison(timestamp)
 
-        if validity is CacheValidity.TODAY:
+        if cache_expires_after is CacheExpiresAfter.TODAY:
             return not date_time_comparison.has_day_from_timestamp_passed()
 
-        return not date_time_comparison.has_hour_from_timestamp_passed()
+        if isinstance(cache_expires_after, int):
+            return not date_time_comparison.has_time_from_timestamp_passed(cache_expires_after)
+
+        return False
 
     def __init__(
             self,
@@ -22,7 +25,7 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             latitude: float,
             longitude: float,
             cache_key: str,
-            cache_validity: CacheValidity,
+            cache_expires_after: CacheExpiresAfter,
             language: str
     ):
         super().__init__(
@@ -37,7 +40,7 @@ class CachedOpenWeatherMap(OpenWeatherMap):
 
         self.cache = None
 
-        if cache_validity is CacheValidity.DISABLE:
+        if cache_expires_after is CacheExpiresAfter.DISABLE:
             self.use_request()
             return
 
@@ -45,9 +48,9 @@ class CachedOpenWeatherMap(OpenWeatherMap):
         cache_contents = self.cache.read()
 
         if cache_contents is not None:
-            is_cache_valid = CachedOpenWeatherMap.validate_timestamp(
+            is_cache_valid = CachedOpenWeatherMap.validate_cache_timestamp(
                 timestamp=cache_contents["cache_timestamp"],
-                validity=cache_validity
+                cache_expires_after=cache_expires_after
             )
 
             if is_cache_valid:

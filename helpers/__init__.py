@@ -1,3 +1,3 @@
-from .cache import CacheValidity
+from .cache import CacheExpiresAfter
 from .time import DateTimeComparison
 from .units import Units, TemperatureUnits, SpeedUnits
