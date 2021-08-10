@@ -1,6 +1,6 @@
 from config import BaseConfig
 from helpers import CacheValidity, DateTimeComparison, Units
-from .OpenWeatherMap import OpenWeatherMap
+from API import OpenWeatherMap
 from .FileCache import FileCache
 
 
