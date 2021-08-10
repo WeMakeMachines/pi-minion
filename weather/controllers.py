@@ -2,27 +2,13 @@ from flask import request
 
 from config import BaseConfig
 from services import CachedOpenWeatherMap
-from helpers import Units
-
-
-class WeatherParams:
-    @staticmethod
-    def __get_units(arg):
-        if arg == Units.IMPERIAL.value:
-            return Units.IMPERIAL
-        else:
-            return Units.METRIC
-
-    def __init__(self):
-        self.speed_units = WeatherParams.__get_units(request.args.get("speed"))
-        self.temperature_units = WeatherParams.__get_units(request.args.get("temp"))
-        self.latitude = request.args.get("lat")
-        self.longitude = request.args.get("long")
-        self.nocache = request.args.get("nocache")
+from helpers import CacheValidity
+from .parameters import ExtractCacheParamsFromRequest, ExtractWeatherParamsFromRequest
 
 
 def open_weather_map():
-    weather_params = WeatherParams()
+    weather_params = ExtractWeatherParamsFromRequest(request)
+    cache_params = ExtractCacheParamsFromRequest(request)
     cache_key = f"${weather_params.latitude}{weather_params.longitude}"
 
     return CachedOpenWeatherMap(
@@ -32,7 +18,7 @@ def open_weather_map():
         temperature_units=weather_params.temperature_units,
         latitude=weather_params.latitude,
         longitude=weather_params.longitude,
-        nocache=weather_params.nocache,
+        cache_validity=CacheValidity.DISABLE if cache_params.nocache else BaseConfig.CACHE_VALIDITY,
         cache_key=cache_key,
         language=BaseConfig.LANGUAGE
     )

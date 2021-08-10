@@ -1,4 +1,3 @@
-from config import BaseConfig
 from helpers import CacheValidity, DateTimeComparison, Units
 from API import OpenWeatherMap
 from .FileCache import FileCache
@@ -22,8 +21,8 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             temperature_units: Units,
             latitude: float,
             longitude: float,
-            nocache: bool,
             cache_key: str,
+            cache_validity: CacheValidity,
             language: str
     ):
         super().__init__(
@@ -38,7 +37,7 @@ class CachedOpenWeatherMap(OpenWeatherMap):
 
         self.cache = None
 
-        if BaseConfig.CACHE_VALIDITY is CacheValidity.DISABLE or nocache is True:
+        if cache_validity is CacheValidity.DISABLE:
             self.use_request()
             return
 
@@ -48,7 +47,7 @@ class CachedOpenWeatherMap(OpenWeatherMap):
         if cache_contents is not None:
             is_cache_valid = CachedOpenWeatherMap.validate_timestamp(
                 timestamp=cache_contents["cache_timestamp"],
-                validity=BaseConfig.CACHE_VALIDITY
+                validity=cache_validity
             )
 
             if is_cache_valid:
