@@ -1,3 +1,5 @@
+import hashlib
+
 from enum import Enum, unique
 
 
@@ -5,3 +7,7 @@ from enum import Enum, unique
 class CacheExpiresAfter(Enum):
     TODAY = "today"
     DISABLE = "disable"
+
+
+def hash_string(string: str):
+    return hashlib.sha256(string.encode('utf-8')).hexdigest()

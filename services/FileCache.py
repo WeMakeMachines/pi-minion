@@ -1,7 +1,8 @@
 import datetime
-import hashlib
 import json
 import os
+
+from helpers import hash_string
 
 
 class FileCacheError(Exception):
@@ -9,10 +10,6 @@ class FileCacheError(Exception):
 
 
 class FileCache:
-    @staticmethod
-    def hash(string: str):
-        return hashlib.sha256(string.encode('utf-8')).hexdigest()
-
     @staticmethod
     def check_path_exists(path: str):
         return os.path.isfile(path)
@@ -25,7 +22,7 @@ class FileCache:
             raise FileCacheError(f"Directory {path} can not be created, {error}")
 
     def __init__(self, key: str):
-        self.cache_dir = f"cache/{FileCache.hash(key)}"
+        self.cache_dir = f"cache/{hash_string(key)}"
 
         if not FileCache.check_path_exists(self.cache_dir):
             FileCache.create_cache_dir(self.cache_dir)
