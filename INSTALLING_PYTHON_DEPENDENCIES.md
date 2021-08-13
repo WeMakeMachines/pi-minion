@@ -28,7 +28,7 @@ It might therefore be necessary to manually compile Python 3.9.5
 4. Configure
 
     ```shell
-    ./configure –enable-optimizations
+    ./configure --prefix=/usr/local --enable-ipv6 --enable-loadable-sqlite-extensions --enable-optimizations --enable-shared
     ```
    
 5. Install
@@ -42,7 +42,7 @@ It might therefore be necessary to manually compile Python 3.9.5
     ```shell
     python3.9 -V
     ```
-   
+
 ### Aliasing to python3
 
 Additionally, you might want to remove any old references to python3, and alias this to the new installation
@@ -55,6 +55,12 @@ Once this is complete, add the following line to the end of `~/.bashrc`
 
 ```bash
 alias python3='python3.9'
+```
+
+If Python complains that it's library module can not be found, run the following command
+
+```bash
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 ```
 
 ## Other dependencies

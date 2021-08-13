@@ -61,14 +61,16 @@ To delete the cache, simply delete this folder
    See the guide [Installing Python Dependencies on Linux](./INSTALLING_PYTHON_DEPENDENCIES.md)
    
 2. Create a `.env` file from the `.env.example`
-   
+
+3. Create the virtual environment
+
     `python3 -m venv ./venv/`
 
-3. Activate the virtual environment
+4. Activate the virtual environment
    
     `. venv/bin/activate`
    
-4. Install the requirements
+5. Install the requirements
    
     `pip install -r requirements.txt`
 
@@ -77,6 +79,14 @@ To delete the cache, simply delete this folder
 Running the following script will setup **pinion.weather** as a systemd service on Linux
 
 `./register-service.sh`
+
+You can interact with the service with the following commands
+
+```
+sudo systemctl start pinion.weather
+sudo systemctl stop pinion.weather
+sudo systemctl status pinion.weather
+```
 
 ### Development on Linux
 
