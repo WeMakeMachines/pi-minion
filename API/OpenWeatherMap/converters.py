@@ -29,10 +29,10 @@ class ConvertedWind(Wind):
         if base_units is not units:
             if units is Units.IMPERIAL:
                 speed = SpeedUnits.as_imperial(speed)
-                gust = TemperatureUnits.as_imperial(gust)
+                gust = SpeedUnits.as_imperial(gust)
 
             if units is Units.METRIC:
                 speed = SpeedUnits.as_metric(speed)
-                gust = TemperatureUnits.as_metric(gust)
+                gust = SpeedUnits.as_metric(gust)
 
         super().__init__(units, speed, degrees, gust)
