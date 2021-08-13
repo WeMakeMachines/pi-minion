@@ -13,7 +13,7 @@ class ConvertedTemperature(Temperature):
                 actual = TemperatureUnits.as_imperial(actual)
                 feels_like = TemperatureUnits.as_imperial(feels_like)
 
-        super().__init__(units, actual, feels_like)
+        super().__init__(units=units, actual=actual, feels_like=feels_like)
 
 
 class ConvertedWind(Wind):
@@ -35,4 +35,6 @@ class ConvertedWind(Wind):
                 speed = SpeedUnits.as_metric(speed)
                 gust = SpeedUnits.as_metric(gust)
 
-        super().__init__(units, speed, degrees, gust)
+        speed_units = units.speed()
+
+        super().__init__(units=speed_units, speed=speed, degrees=degrees, gust=gust)
