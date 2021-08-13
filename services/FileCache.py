@@ -59,3 +59,4 @@ class FileCache:
                 "cache_timestamp": timestamp,
                 "cache": data
             }, outfile)
+            outfile.close()
