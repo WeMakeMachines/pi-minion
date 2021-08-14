@@ -1,6 +1,6 @@
 from helpers import CacheExpiresAfter, DateTimeComparison, Units
-from API import OpenWeatherMap
 from .FileCache import FileCache
+from .OpenWeatherMap import OpenWeatherMap
 
 
 class CachedOpenWeatherMap(OpenWeatherMap):
