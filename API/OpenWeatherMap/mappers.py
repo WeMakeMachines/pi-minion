@@ -46,7 +46,8 @@ class Mapper:
         return {
             "sun": Sun(
                 sunrise=day["sunrise"],
-                sunset=day["sunset"]
+                sunset=day["sunset"],
+                uv=day["uvi"]
             ),
             "description": Forecast(
                 main=day["weather"][0]["main"],
