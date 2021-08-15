@@ -110,7 +110,8 @@ class Mapper:
         self.data.update({
             "sun": Sun(
                 sunrise=now["sunrise"],
-                sunset=now["sunset"]
+                sunset=now["sunset"],
+                uv=now["uvi"]
             ),
         })
 
