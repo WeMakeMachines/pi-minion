@@ -13,7 +13,7 @@ class ExtractWeatherParamsFromRequest:
         self.speed_units = ExtractWeatherParamsFromRequest.__get_units(request.args.get("speed"))
         self.temperature_units = ExtractWeatherParamsFromRequest.__get_units(request.args.get("temp"))
         self.latitude = request.args.get("lat")
-        self.longitude = request.args.get("long")
+        self.longitude = request.args.get("lon")
 
 
 class ExtractCacheParamsFromRequest:

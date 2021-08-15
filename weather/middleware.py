@@ -13,7 +13,7 @@ def normalise_weather_params(function):
         }
         location_params = {
             "lat": BaseConfig.LATITUDE,
-            "long": BaseConfig.LONGITUDE
+            "lon": BaseConfig.LONGITUDE
         }
         ordered_params = {}
 
