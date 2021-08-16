@@ -8,7 +8,7 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 ## Features
 
 - Uses OpenWeatherMap API v2.5
-- Keeps a local cache of the response data
+- Keeps an in memory cache of the response data
 - Allows mixing of units as metric / imperial for speed and temperature
 - Can be configured for a static location
 
@@ -42,14 +42,6 @@ Possible options for `CACHE_EXPIRES_AFTER` in `.env`
 ##### string
 - _today_ - cache only valid for today (up till midnight)
 - _disable_ - disables all cache requests
-
-> Note: If you want to disable system file writes, set `CACHE_VALIDITY` to `disable`
-
-#### Deleting cache
-
-Cached files are written to `/cache`
-
-To delete the cache, simply delete this folder
 
 ## Installation and Usage
 

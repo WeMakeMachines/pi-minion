@@ -1,9 +1,15 @@
+from threading import Lock
+
 from helpers import CacheExpiresAfter, DateTimeComparison, Units
-from .FileCache import FileCache
+from .MemoryCache import MemoryCache
 from .OpenWeatherMap import OpenWeatherMap
+
+open_weather_map_cache = MemoryCache()
 
 
 class CachedOpenWeatherMap(OpenWeatherMap):
+    lock = Lock()
+
     @staticmethod
     def validate_cache_timestamp(timestamp: float, cache_expires_after: CacheExpiresAfter or int) -> bool:
         date_time_comparison = DateTimeComparison(timestamp)
@@ -38,35 +44,38 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             language
         )
 
-        self.cache = None
+        self.cache_key = cache_key
+        self.lock.acquire()
 
-        if cache_expires_after is CacheExpiresAfter.DISABLE:
-            self.use_request()
-            return
-
-        self.cache = FileCache(cache_key)
-        cache_contents = self.cache.read()
-
-        if cache_contents is not None:
-            is_cache_valid = CachedOpenWeatherMap.validate_cache_timestamp(
-                timestamp=cache_contents["cache_timestamp"],
-                cache_expires_after=cache_expires_after
-            )
-
-            if is_cache_valid:
-                self.use_cache()
+        try:
+            if cache_expires_after is CacheExpiresAfter.DISABLE:
+                self.use_request()
                 return
 
-        self.use_request()
-        self.write_cache()
+            cache_contents = open_weather_map_cache.read(cache_key)
+
+            if cache_contents is not None:
+                is_cache_valid = CachedOpenWeatherMap.validate_cache_timestamp(
+                    timestamp=cache_contents["cache_timestamp"],
+                    cache_expires_after=cache_expires_after
+                )
+
+                if is_cache_valid:
+                    self.use_cache()
+                    return
+
+            self.use_request()
+            self.write_cache()
+        finally:
+            self.lock.release()
 
     def use_request(self):
         self.raw_response.update(self.call())
 
     def use_cache(self):
-        cache_contents = self.cache.read()
+        cache_contents = open_weather_map_cache.read(self.cache_key)
         self.parsed_data['cache_timestamp'] = cache_contents['cache_timestamp']
         self.raw_response.update(cache_contents['cache'])
 
     def write_cache(self):
-        self.cache.write(self.raw_response)
+        open_weather_map_cache.write(key=self.cache_key, data=self.raw_response)

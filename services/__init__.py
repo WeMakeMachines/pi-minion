@@ -1,3 +1,3 @@
 from .CachedOpenWeatherMap import CachedOpenWeatherMap
-from .FileCache import FileCache
+from .MemoryCache import MemoryCache
 from .OpenWeatherMap import OpenWeatherMap
