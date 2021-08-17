@@ -1,3 +1,3 @@
-from .cache import CacheExpiresAfter, hash_string
+from .cache import CacheExpiresAfter, JsonCacheSerializeDeserialize
 from .time import DateTimeComparison
 from .units import Units, TemperatureUnits, SpeedUnits

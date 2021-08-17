@@ -8,7 +8,7 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 ## Features
 
 - Uses OpenWeatherMap API v2.5
-- Keeps an in memory cache of the response data
+- Keeps an in memory cache (memcached) of the response data
 - Allows mixing of units as metric / imperial for speed and temperature
 - Can be configured for a static location
 
@@ -44,6 +44,14 @@ Possible options for `CACHE_EXPIRES_AFTER` in `.env`
 - _disable_ - disables all cache requests
 
 ## Installation and Usage
+
+### Requirements
+
+Install memcached
+
+   `sudo apt-get install memcached`
+
+### Setup
 
 1. Make sure you have met the following dependencies on your system:
    - python >= 3.9.5

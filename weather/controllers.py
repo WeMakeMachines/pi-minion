@@ -9,7 +9,7 @@ from .parameters import ExtractCacheParamsFromRequest, ExtractWeatherParamsFromR
 def open_weather_map():
     weather_params = ExtractWeatherParamsFromRequest(request)
     cache_params = ExtractCacheParamsFromRequest(request)
-    cache_key = f"${weather_params.latitude}{weather_params.longitude}"
+    cache_key = f"{weather_params.latitude}{weather_params.longitude}"
 
     return CachedOpenWeatherMap(
         api_key=BaseConfig.OPEN_WEATHER_MAP_API_KEY,
@@ -20,7 +20,8 @@ def open_weather_map():
         longitude=weather_params.longitude,
         cache_expires_after=CacheExpiresAfter.DISABLE if cache_params.nocache else BaseConfig.CACHE_EXPIRES_AFTER,
         cache_key=cache_key,
-        language=BaseConfig.LANGUAGE
+        language=BaseConfig.LANGUAGE,
+        memcached_url=BaseConfig.MEMCACHED_URL
     )
 
 

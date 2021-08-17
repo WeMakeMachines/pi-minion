@@ -1,13 +1,12 @@
 from threading import Lock
+from pymemcache.client.base import Client
 
-from helpers import CacheExpiresAfter, DateTimeComparison, Units
-from .MemoryCache import MemoryCache
+from helpers import CacheExpiresAfter, JsonCacheSerializeDeserialize, DateTimeComparison, Units
 from .OpenWeatherMap import OpenWeatherMap
-
-open_weather_map_cache = MemoryCache()
 
 
 class CachedOpenWeatherMap(OpenWeatherMap):
+    cache_client = Client(server="localhost:11211", serde=JsonCacheSerializeDeserialize())
     lock = Lock()
 
     @staticmethod
@@ -32,7 +31,8 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             longitude: float,
             cache_key: str,
             cache_expires_after: CacheExpiresAfter,
-            language: str
+            language: str,
+            memcached_url: str
     ):
         super().__init__(
             api_key,
@@ -44,7 +44,7 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             language
         )
 
-        self.cache_key = cache_key
+        self.cache_key = f"pinion.weather.open.weather.map{cache_key}"
         self.lock.acquire()
 
         try:
@@ -52,7 +52,7 @@ class CachedOpenWeatherMap(OpenWeatherMap):
                 self.use_request()
                 return
 
-            cache_contents = open_weather_map_cache.read(cache_key)
+            cache_contents = self.cache_client.get(self.cache_key)
 
             if cache_contents is not None:
                 is_cache_valid = CachedOpenWeatherMap.validate_cache_timestamp(
@@ -73,9 +73,9 @@ class CachedOpenWeatherMap(OpenWeatherMap):
         self.raw_response.update(self.call())
 
     def use_cache(self):
-        cache_contents = open_weather_map_cache.read(self.cache_key)
+        cache_contents = self.cache_client.get(self.cache_key)
         self.parsed_data['cache_timestamp'] = cache_contents['cache_timestamp']
         self.raw_response.update(cache_contents['cache'])
 
     def write_cache(self):
-        open_weather_map_cache.write(key=self.cache_key, data=self.raw_response)
+        self.cache_client.set(key=self.cache_key, value=self.raw_response)

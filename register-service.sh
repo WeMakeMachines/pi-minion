@@ -32,7 +32,7 @@ fi
 printf "Using port $port\n"
 
 printf "How many workers would you like to assign to pinion.weather?\n"
-printf "recommended formula is 1 + 2 * NUM_CORES\n"
+printf "recommended formula (2 x number_of_cores) + 1\n"
 read -p "(DEFAULT=3)" workers
 
 if [ -z "$workers" ]
