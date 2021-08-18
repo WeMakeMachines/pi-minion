@@ -54,7 +54,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=${USER}
-ExecStart=${directory}/venv/bin/gunicorn -w ${workers} --bind 0.0.0.0:${port} app:app --chdir ${directory}
+ExecStart=${directory}/venv/bin/gunicorn -w ${workers} --bind 0.0.0.0:${port} app:app --chdir ${directory} --preload --timeout 0 --worker-class sync
 
 [Install]
 WantedBy=multi-user.target
