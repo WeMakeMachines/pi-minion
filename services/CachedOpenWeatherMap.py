@@ -6,7 +6,6 @@ from .OpenWeatherMap import OpenWeatherMap
 
 
 class CachedOpenWeatherMap(OpenWeatherMap):
-    cache_client = Client(server="localhost:11211", serde=JsonCacheSerializeDeserialize())
     lock = Lock()
 
     @staticmethod
@@ -32,7 +31,7 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             cache_key: str,
             cache_expires_after: CacheExpiresAfter,
             language: str,
-            memcached_url: str
+            memcached_server: str
     ):
         super().__init__(
             api_key,
@@ -44,6 +43,8 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             language
         )
 
+        self.cache_client = Client(server=memcached_server, serde=JsonCacheSerializeDeserialize(), connect_timeout=10,
+                                   timeout=10, no_delay=False)
         self.cache_key = f"pinion.weather.open.weather.map{cache_key}"
         self.lock.acquire()
 
@@ -78,4 +79,4 @@ class CachedOpenWeatherMap(OpenWeatherMap):
         self.raw_response.update(cache_contents['cache'])
 
     def write_cache(self):
-        self.cache_client.set(key=self.cache_key, value=self.raw_response)
+        self.cache_client.set(key=self.cache_key, value=self.raw_response, expire=60*60*24*14)

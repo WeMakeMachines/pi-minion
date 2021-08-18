@@ -45,11 +45,11 @@ Possible options for `CACHE_EXPIRES_AFTER` in `.env`
 
 ## Installation and Usage
 
-### Requirements
+### System Dependencies
 
-Install memcached
+##### Linux
 
-   `sudo apt-get install memcached`
+See the guide [Installing memcached on Linux](./INSTALLING_MEMCACHED.md)
 
 ### Setup
 

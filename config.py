@@ -29,7 +29,7 @@ class BaseConfig:
     BASE_UNITS = DEFAULT_BASE_UNITS if config.get("BASE_UNITS") is None else Units(config.get("BASE_UNITS"))
     DEFAULT_LANGUAGE = "en"
     LANGUAGE = DEFAULT_LANGUAGE if config.get("LANGUAGE") is None else config.get("LANGUAGE")
-    MEMCACHED_URL = config.get("MEMCACHED_URL")
+    MEMCACHED_SERVER = config.get("MEMCACHED_SERVER")
 
 
 if BaseConfig.OPEN_WEATHER_MAP_API_KEY is None:

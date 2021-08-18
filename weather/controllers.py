@@ -21,7 +21,7 @@ def open_weather_map():
         cache_expires_after=CacheExpiresAfter.DISABLE if cache_params.nocache else BaseConfig.CACHE_EXPIRES_AFTER,
         cache_key=cache_key,
         language=BaseConfig.LANGUAGE,
-        memcached_url=BaseConfig.MEMCACHED_URL
+        memcached_server=BaseConfig.MEMCACHED_SERVER
     )
 
 

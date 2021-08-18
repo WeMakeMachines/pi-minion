@@ -45,7 +45,8 @@ printf "Using $workers workers\n"
 cat >> pinion.weather.service <<EOF
 [Unit]
 Description=pinion.weather service
-After=network.target
+Requires=memcached.service
+After=memcached.service
 StartLimitIntervalSec=0
 
 [Service]
