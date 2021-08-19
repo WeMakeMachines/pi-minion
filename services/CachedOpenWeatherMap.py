@@ -1,4 +1,4 @@
-from threading import Lock
+from multiprocessing import Lock
 from pymemcache.client.base import Client
 
 from helpers import CacheExpiresAfter, JsonCacheSerializeDeserialize, DateTimeComparison, Units
