@@ -2,8 +2,7 @@ _pinion - a small cog which engages the teeth of a larger wheel_
 
 # pinion.weather 😈⛅
 
-- a small weather microservice
-- can be configured for static or mobile systems
+A microservice which best serves applications that make uncommon and unpredictable requests for weather information
 
 ## Features
 
