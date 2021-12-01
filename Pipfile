@@ -4,10 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
-flask-cors = "*"
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
 requests = "*"
-gunicorn = "*"
 pymemcache = "*"
 
 [dev-packages]

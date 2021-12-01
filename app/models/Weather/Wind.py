@@ -1,4 +1,4 @@
-from helpers import SpeedUnits
+from app.helpers.units import SpeedUnits
 
 
 class Wind(dict):

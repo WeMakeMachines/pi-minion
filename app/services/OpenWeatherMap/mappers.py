@@ -1,7 +1,9 @@
 from typing import TypedDict
 
-from models.Weather import Clouds, Forecast, Sun
-from helpers import Units
+from app.models.Weather.Clouds import Clouds
+from app.models.Weather.Forecast import Forecast
+from app.models.Weather.Sun import Sun
+from app.helpers.units import Units
 from .converters import ConvertedTemperature, ConvertedWind
 
 

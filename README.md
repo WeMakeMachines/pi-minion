@@ -1,4 +1,4 @@
-_pinion - a small cog which engages the teeth of a larger wheel_
+_pinion - the smaller wheels turns the larger ..._
 
 # pinion.weather 😈⛅
 
@@ -100,5 +100,5 @@ sudo systemctl status pinion.weather
 To test the server, run the following command within the virtual environment
 
 ```bash
-pipenv run flask --host=0.0.0.0
+pipenv run uvicorn app.main:app --reload
 ```
