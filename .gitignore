@@ -1,6 +1,6 @@
-# Application caching
+# Application config
 
-cache/
+config.ini
 
 ### PyCharm ###
 

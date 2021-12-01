@@ -1,19 +1,20 @@
-from dotenv import dotenv_values
 from helpers import CacheExpiresAfter, Units
+from configparser import ConfigParser
 
-config = dotenv_values(".env")
+config = ConfigParser()
+config.read('config.ini')
 
 
 def handle_cache_expires_after():
     try:
-        if CacheExpiresAfter(config.get("CACHE_EXPIRES_AFTER")) is CacheExpiresAfter.DISABLE:
+        if CacheExpiresAfter(config["cache"]["cache_expires_after"]) is CacheExpiresAfter.DISABLE:
             return CacheExpiresAfter.DISABLE
 
-        if CacheExpiresAfter(config.get("CACHE_EXPIRES_AFTER")) is CacheExpiresAfter.TODAY:
+        if CacheExpiresAfter(config["cache"]["cache_expires_after"]) is CacheExpiresAfter.TODAY:
             return CacheExpiresAfter.TODAY
 
     except:
-        return int(config.get("CACHE_EXPIRES_AFTER"))
+        return int(config["cache"]["cache_expires_after"])
 
 
 class BaseConfigError(Exception):
@@ -21,15 +22,16 @@ class BaseConfigError(Exception):
 
 
 class BaseConfig:
-    OPEN_WEATHER_MAP_API_KEY = config.get("OPEN_WEATHER_MAP_API_KEY")
-    LATITUDE = config.get("LATITUDE")
-    LONGITUDE = config.get("LONGITUDE")
+    OPEN_WEATHER_MAP_API_KEY = config["api"]["open_weather_map_key"]
+    LATITUDE = config["general"]["latitude"]
+    LONGITUDE = config["general"]["longitude"]
     CACHE_EXPIRES_AFTER = handle_cache_expires_after()
     DEFAULT_BASE_UNITS = Units.METRIC
-    BASE_UNITS = DEFAULT_BASE_UNITS if config.get("BASE_UNITS") is None else Units(config.get("BASE_UNITS"))
+    BASE_UNITS = DEFAULT_BASE_UNITS if config["general"]["base_units"] is None else Units(
+        config["general"]["base_units"])
     DEFAULT_LANGUAGE = "en"
-    LANGUAGE = DEFAULT_LANGUAGE if config.get("LANGUAGE") is None else config.get("LANGUAGE")
-    MEMCACHED_SERVER = config.get("MEMCACHED_SERVER")
+    LANGUAGE = DEFAULT_LANGUAGE if config["general"]["language"] is None else config["general"]["language"]
+    MEMCACHED_SERVER = config["cache"]["memcached"]
 
 
 if BaseConfig.OPEN_WEATHER_MAP_API_KEY is None:

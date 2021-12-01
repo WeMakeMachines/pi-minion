@@ -59,29 +59,31 @@ See the guide [Installing memcached on Linux](./INSTALLING_MEMCACHED.md)
    
    See the guide [Installing Python Dependencies on Linux](./INSTALLING_PYTHON_DEPENDENCIES.md)
    
-2. Create a `.env` file from the `.env.example`
+2. Create a `config.ini` file from the `config_example.ini`
 
-3. Create the virtual environment
+3. Create the virtual environment and install dependencies
 
-    `python3 -m venv ./venv/`
+    ```bash
+   pipenv install
+   ```
 
 4. Activate the virtual environment
    
-    `. venv/bin/activate`
-   
-5. Install the requirements
-   
-    `pip install -r requirements.txt`
+    ```bash
+   pipenv shell
+   ```
 
 ### Deploying on Linux
 
 Running the following script will setup **pinion.weather** as a systemd service on Linux
 
-`./register-service.sh`
+```bash
+./register-service.sh
+```
 
 You can interact with the service with the following commands
 
-```
+```bash
 sudo systemctl start pinion.weather
 sudo systemctl stop pinion.weather
 sudo systemctl status pinion.weather
@@ -91,4 +93,7 @@ sudo systemctl status pinion.weather
 
 To test the server, run the following command within the virtual environment
 
-`flask run --host=0.0.0.0`
+```bash
+pipenv shell
+flask run --host=0.0.0.0
+```
