@@ -78,7 +78,7 @@ For production, it is recommended not to use pipenv
 3. Install the requirements
    
    ```bash
-   pip install -r requirements.txt`
+   pip install -r requirements.txt
    ```
 
 4. Running the following script will setup **pinion.weather** as a systemd service on Linux
@@ -90,9 +90,9 @@ For production, it is recommended not to use pipenv
 You can interact with the service with the following commands
 
 ```bash
-sudo systemctl start pinion.weather
-sudo systemctl stop pinion.weather
-sudo systemctl status pinion.weather
+systemctl start pinion.weather
+systemctl stop pinion.weather
+systemctl status pinion.weather
 ```
 
 ### Development on Linux
@@ -100,5 +100,5 @@ sudo systemctl status pinion.weather
 To test the server, run the following command within the virtual environment
 
 ```bash
-pipenv run uvicorn app.main:app --reload
+pipenv run uvicorn app.main:app --host 0.0.0.0 --reload
 ```

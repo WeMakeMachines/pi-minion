@@ -51,10 +51,11 @@ StartLimitIntervalSec=0
 
 [Service]
 Type=simple
+WorkingDirectory=${directory}
 Restart=always
 RestartSec=1
 User=${USER}
-ExecStart=${directory}/venv/bin/gunicorn -w ${workers} --bind 0.0.0.0:${port} app:app --chdir ${directory} --preload --timeout 0 --worker-class sync
+ExecStart=${directory}/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port ${port} --workers ${workers} --app-dir ${directory}
 
 [Install]
 WantedBy=multi-user.target

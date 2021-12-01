@@ -27,6 +27,6 @@ Sockets have a small advantage over TCP connections when it comes to speed
    -s /run/memcached/memcached.sock
    ```
    
-4. Set the `.env` key `MEMCACHED_SERVER` to `/run/memcached/memcached.sock`
+4. Set the `config.ini` key `memcached` to `/run/memcached/memcached.sock`
 
 5. Restart the memcached service
