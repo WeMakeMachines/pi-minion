@@ -29,57 +29,63 @@ The following parameters can be omitted, if the server has been setup with defau
 - `lon=` - longitude co-ordinate
 - `nocache=` - force pinion.weather to make a fresh request
 
-### Cache
+## Configuring
 
-#### Options
+### config.ini
 
-Possible options for `CACHE_EXPIRES_AFTER` in `.env`
+Follow the example from `config_example.ini`
 
-##### integer
-- number of minutes the cache is valid for, i.e, _60_ for 1 hour
+- `CACHE_EXPIRES_AFTER`
+   > `integer`
+   > 
+   > number of minutes the cache is valid for, i.e, _60_ for 1 hour
+   
+   > `string`
+   > 
+   > **today** - cache only valid for today (up till midnight)
+   > 
+   > **disable** - disables all cache requests
 
-##### string
-- _today_ - cache only valid for today (up till midnight)
-- _disable_ - disables all cache requests
+## System Dependencies (Linux)
 
-## Installation and Usage
-
-### System Dependencies
-
-##### Linux
+- python >= 3.9.5
+- pip
+- pipenv or pythonenv
 
 See the guide [Installing memcached on Linux](./INSTALLING_MEMCACHED.md)
+See the guide [Installing Python Dependencies on Linux](./INSTALLING_PYTHON_DEPENDENCIES.md)
 
-### Setup
+## Setup
 
-1. Make sure you have met the following dependencies on your system:
-   - python >= 3.9.5
-   - python pip
-   - python venv
-   
-   See the guide [Installing Python Dependencies on Linux](./INSTALLING_PYTHON_DEPENDENCIES.md)
-   
-2. Create a `config.ini` file from the `config_example.ini`
-
-3. Create the virtual environment and install dependencies
-
-    ```bash
-   pipenv install
-   ```
-
-4. Activate the virtual environment
-   
-    ```bash
-   pipenv shell
-   ```
+> Make sure your `config.ini` is properly setup!
 
 ### Deploying on Linux
 
-Running the following script will setup **pinion.weather** as a systemd service on Linux
+For production, it is recommended not to use pipenv
 
-```bash
-./register-service.sh
-```
+1. Create the virtual environment
+
+   ```bash
+   python3 -m venv ./venv/
+   ```
+
+2. Activate the virtual environment
+   
+   ```bash
+   . venv/bin/activate
+   ```
+   
+3. Install the requirements
+   
+   ```bash
+   pip install -r requirements.txt`
+   ```
+
+4. Running the following script will setup **pinion.weather** as a systemd service on Linux
+
+   ```bash
+   ./register-service.sh
+   ```
 
 You can interact with the service with the following commands
 
@@ -94,6 +100,5 @@ sudo systemctl status pinion.weather
 To test the server, run the following command within the virtual environment
 
 ```bash
-pipenv shell
-flask run --host=0.0.0.0
+pipenv run flask --host=0.0.0.0
 ```
