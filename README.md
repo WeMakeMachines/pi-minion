@@ -13,11 +13,13 @@ A microservice which best serves applications that make uncommon and unpredictab
 
 ## Operation
 
-### Routes
+### Optional Query Params
 
-- `/now` - returns the weather now
-- `/hourly` - returns the weather for the next 48 hours
-- `/daily` - returns the forecast for the next 8 days
+- `now` - returns the weather now
+- `hourly` - returns the weather for the next 48 hours
+- `daily` - returns the forecast for the next 8 days
+
+Passing no query params defaults to requesting all available data
 
 ### Optional Parameters
 

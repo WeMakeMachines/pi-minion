@@ -33,7 +33,7 @@ class OpenWeatherMap:
         self.longitude = longitude
         self.url = f"{self.base_url}/{self.one_call_route}?lat={latitude}&lon={longitude}&appid={api_key}&units={base_units.value}&lang={language}&exclude=minutely"
         self.raw_response = {}
-        self.parsed_data = {
+        self.location = {
             "location": {
                 "lat": self.latitude,
                 "long": self.longitude
@@ -54,13 +54,10 @@ class OpenWeatherMap:
         )
 
     def now(self):
-        self.parsed_data.update(self.mapper().map_now(self.raw_response["current"]))
-        return self.parsed_data
+        return self.mapper().map_now(self.raw_response["current"])
 
     def hourly(self):
-        self.parsed_data.update(self.mapper().map_hourly(self.raw_response["hourly"]))
-        return self.parsed_data
+        return self.mapper().map_hourly(self.raw_response["hourly"])
 
     def daily(self):
-        self.parsed_data.update(self.mapper().map_daily(self.raw_response["daily"]))
-        return self.parsed_data
+        return self.mapper().map_daily(self.raw_response["daily"])

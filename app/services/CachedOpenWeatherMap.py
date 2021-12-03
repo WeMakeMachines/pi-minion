@@ -30,10 +30,10 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             temperature_units: Units,
             latitude: float,
             longitude: float,
+            language: str,
+            memcached_server: str,
             cache_key: str,
             cache_expires_after: CacheExpiresAfter,
-            language: str,
-            memcached_server: str
     ):
         super().__init__(
             api_key,
@@ -45,9 +45,11 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             language
         )
 
-        self.cache_client = Client(server=memcached_server, serde=JsonCacheSerializeDeserialize(), connect_timeout=10,
+        self.cache_client: Client = Client(server=memcached_server, serde=JsonCacheSerializeDeserialize(), connect_timeout=10,
                                    timeout=10, no_delay=False)
-        self.cache_key = f"pinion.weather.open.weather.map{cache_key}"
+        self.cache_key: str = f"pinion.weather.open.weather.map{cache_key}"
+        self.cache_timestamp: int = 0
+        self.cached: bool = False
         self.lock.acquire()
 
         try:
@@ -77,7 +79,8 @@ class CachedOpenWeatherMap(OpenWeatherMap):
 
     def use_cache(self):
         cache_contents = self.cache_client.get(self.cache_key)
-        self.parsed_data['cache_timestamp'] = cache_contents['cache_timestamp']
+        self.cached = True
+        self.cache_timestamp = cache_contents['cache_timestamp']
         self.raw_response.update(cache_contents['cache'])
 
     def write_cache(self):

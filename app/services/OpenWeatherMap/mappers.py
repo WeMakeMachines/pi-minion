@@ -18,7 +18,6 @@ class Mapper:
         self.base_units = units["base_units"]
         self.speed_units = units["speed_units"]
         self.temperature_units = units["temperature_units"]
-        self.data = {}
 
     def __map_hour(self, hour):
         return {
@@ -104,12 +103,13 @@ class Mapper:
         }
 
     def map_now(self, now):
-        mapped_now = self.__map_hour(now)
+        mapped_hour = self.__map_hour(now)
+        mapped_now = {}
 
-        for key in mapped_now:
-            self.data[key] = mapped_now[key]
+        for key in mapped_hour:
+            mapped_now[key] = mapped_hour[key]
 
-        self.data.update({
+        mapped_now.update({
             "sun": Sun(
                 sunrise=now["sunrise"],
                 sunset=now["sunset"],
@@ -117,24 +117,20 @@ class Mapper:
             ),
         })
 
-        return self.data
+        return mapped_now
 
     def map_hourly(self, hourly):
-        self.data.update({
-            "hourly": []
-        })
+        mapped_hourly = []
 
         for hour in hourly:
-            self.data["hourly"].append(self.__map_hour(hour))
+            mapped_hourly.append(self.__map_hour(hour))
 
-        return self.data
+        return mapped_hourly
 
     def map_daily(self, daily):
-        self.data.update({
-            "daily": []
-        })
+        mapped_daily = []
 
         for day in daily:
-            self.data["daily"].append(self.__map_day(day))
+            mapped_daily.append(self.__map_day(day))
 
-        return self.data
+        return mapped_daily
