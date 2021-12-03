@@ -13,23 +13,25 @@ A microservice which best serves applications that make uncommon and unpredictab
 
 ## Operation
 
-### Optional Query Params
+### Data Query Params
 
 - `now` - returns the weather now
 - `hourly` - returns the weather for the next 48 hours
 - `daily` - returns the forecast for the next 8 days
 
+**Example**: `/?now&hourly`
+
 Passing no query params defaults to requesting all available data
 
-### Optional Parameters
+### Other Query Parameters
 
-The following parameters can be omitted, if the server has been setup with defaults
+The following parameters can be omitted, if the server config has been setup with defaults
 
-- `speed=` - can be either `metric` or `imperial`
-- `temp=` - can be either `metric` or `imperial`
-- `lat=` - latitude co-ordinate
-- `lon=` - longitude co-ordinate
-- `nocache=` - force pinion.weather to make a fresh request
+- `speed` - can be either `metric` or `imperial`
+- `temp` - can be either `metric` or `imperial`
+- `lat` - latitude co-ordinate
+- `lon` - longitude co-ordinate
+- `nocache` - force pinion.weather to make a fresh request
 
 ## Configuring
 
