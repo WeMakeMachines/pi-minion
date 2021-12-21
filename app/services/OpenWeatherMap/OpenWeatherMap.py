@@ -41,8 +41,11 @@ class OpenWeatherMap:
         }
 
     def call(self):
-        response = requests.get(self.url)
-        return json.loads(response.text)
+        try:
+            response = requests.get(self.url)
+            return json.loads(response.text)
+        except requests.ConnectionError:
+            raise OpenWeatherMapError("Connection Error")
 
     def mapper(self):
         return Mapper(

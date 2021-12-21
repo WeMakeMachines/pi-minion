@@ -71,6 +71,8 @@ class CachedOpenWeatherMap(OpenWeatherMap):
 
             self.use_request()
             self.write_cache()
+        except Exception:
+            self.use_cache()
         finally:
             self.lock.release()
 
