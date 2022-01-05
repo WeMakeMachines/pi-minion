@@ -6,7 +6,7 @@ from app.helpers.request import ExtractCacheFromRequestState, ExtractUnitsFromRe
     ExtractLocationFromRequestState
 
 
-def open_weather_map(request: Request, now: str, hourly: str, daily: str):
+def open_weather_map(request: Request, now: str, hourly: str, daily: str, alerts: str):
     cache = ExtractCacheFromRequestState(request)
     units = ExtractUnitsFromRequestState(request)
     location = ExtractLocationFromRequestState(request)
@@ -31,6 +31,8 @@ def open_weather_map(request: Request, now: str, hourly: str, daily: str):
         data["hourly"] = _open_weather_map.hourly()
     if daily is not None:
         data["daily"] = _open_weather_map.daily()
+    if alerts is not None:
+        data["alerts"] = _open_weather_map.alerts()
     if _open_weather_map.cached is True:
         data["cache_timestamp"] = _open_weather_map.cache_timestamp
     return data
