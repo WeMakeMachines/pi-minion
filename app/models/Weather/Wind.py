@@ -1,7 +1,7 @@
 from app.helpers.units import SpeedUnits
 
 
-class Wind(dict):
+class Wind:
     @staticmethod
     def __describe_wind_direction(degrees: int):
         description = ["north", "north east", "east", "south east", "south", "south west", "west", "north west"]
@@ -55,5 +55,3 @@ class Wind(dict):
         self.direction = self.__describe_wind_direction(self.degrees)
         self.gust = gust
         self.beaufort = self.__calc_beaufort_scale(self.speed, self.units)
-        dict.__init__(self, units=self.units.value, speed=self.speed, degrees=self.degrees, gust=self.gust,
-                      direction=self.direction, beaufort=self.beaufort)
