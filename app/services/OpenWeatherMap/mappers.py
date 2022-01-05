@@ -21,6 +21,11 @@ class Mapper:
         self.temperature_units = units["temperature_units"]
 
     def __map_hour(self, hour):
+        precipitation_chance = None
+
+        if "pop" in hour:
+            precipitation_chance=hour["pop"]
+
         return {
             "time": hour["dt"],
             "description": Forecast(
@@ -29,7 +34,7 @@ class Mapper:
             ),
             "clouds": Clouds(
                 cover=hour["clouds"],
-                precipitation=hour["pop"]
+                precipitation_chance=precipitation_chance
             ),
             "temperature": ConvertedTemperature(
                 base_units=self.base_units,
@@ -58,7 +63,7 @@ class Mapper:
             ),
             "clouds": Clouds(
                 cover=day["clouds"],
-                precipitation=day["pop"]
+                precipitation_chance=day["pop"]
             ),
             "temperature": {
                 "morning": ConvertedTemperature(

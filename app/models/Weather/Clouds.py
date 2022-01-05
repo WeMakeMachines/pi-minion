@@ -1,5 +1,7 @@
-class Clouds(dict):
-    def __init__(self, cover: int, precipitation: float):
-        self.cover = cover
-        self.precipitation = precipitation
-        dict.__init__(self, cover=self.cover, precipitation=self.precipitation)
+from pydantic import BaseModel
+from typing import Optional
+
+
+class Clouds(BaseModel):
+    cover: int
+    precipitation_chance: Optional[float]
