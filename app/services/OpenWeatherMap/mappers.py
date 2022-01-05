@@ -28,7 +28,8 @@ class Mapper:
                 body=hour["weather"][0]["description"]
             ),
             "clouds": Clouds(
-                cover=hour["clouds"]
+                cover=hour["clouds"],
+                precipitation=hour["pop"]
             ),
             "temperature": ConvertedTemperature(
                 base_units=self.base_units,
@@ -56,7 +57,8 @@ class Mapper:
                 body=day["weather"][0]["description"]
             ),
             "clouds": Clouds(
-                cover=day["clouds"]
+                cover=day["clouds"],
+                precipitation=day["pop"]
             ),
             "temperature": {
                 "morning": ConvertedTemperature(
