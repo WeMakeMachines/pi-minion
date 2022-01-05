@@ -18,6 +18,7 @@ A microservice which best serves applications that make uncommon and unpredictab
 - `now` - returns the weather now
 - `hourly` - returns the weather for the next 48 hours
 - `daily` - returns the forecast for the next 8 days
+- `alerts` - returns any alerts issued
 
 **Example**: `/?now&hourly`
 
@@ -57,6 +58,7 @@ Follow the example from `config_example.ini`
 - pipenv or pythonenv
 
 See the guide [Installing memcached on Linux](./INSTALLING_MEMCACHED.md)
+
 See the guide [Installing Python Dependencies on Linux](./INSTALLING_PYTHON_DEPENDENCIES.md)
 
 ## Setup
