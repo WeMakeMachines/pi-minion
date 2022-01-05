@@ -22,7 +22,6 @@ class BaseWeather(BaseModel):
     dew_point: float
     dt: date
     humidity: int
-    pop: float
     pressure: int
     uvi: float
     wind_deg: int

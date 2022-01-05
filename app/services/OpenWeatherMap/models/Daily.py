@@ -22,6 +22,7 @@ class Daily(BaseWeather):
     moonrise: date
     moonset: date
     moon_phase: float
+    pop: float
     temp: Temperature
     feels_like: BaseTemperature
     rain: Optional[float]
