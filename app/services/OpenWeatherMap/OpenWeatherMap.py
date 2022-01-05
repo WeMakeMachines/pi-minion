@@ -64,3 +64,6 @@ class OpenWeatherMap:
 
     def daily(self):
         return self.mapper().map_daily(self.raw_response["daily"])
+
+    def alerts(self):
+        return self.mapper().map_alerts(self.raw_response["alerts"])

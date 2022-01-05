@@ -1,5 +1,6 @@
 from typing import TypedDict
 
+from app.models.Weather.Alert import Alert
 from app.models.Weather.Clouds import Clouds
 from app.models.Weather.Forecast import Forecast
 from app.models.Weather.Sun import Sun
@@ -102,6 +103,15 @@ class Mapper:
             )
         }
 
+    def __map_alert(self, alert):
+        return Alert(
+            title=alert["event"],
+            issued_by=alert["sender_name"],
+            issued_at=alert["start"],
+            expires=alert["end"],
+            description=alert["description"]
+        )
+
     def map_now(self, now):
         mapped_hour = self.__map_hour(now)
         mapped_now = {}
@@ -134,3 +144,11 @@ class Mapper:
             mapped_daily.append(self.__map_day(day))
 
         return mapped_daily
+
+    def map_alerts(self, alerts):
+        mapped_alerts = []
+
+        for alert in alerts:
+            mapped_alerts.append(self.__map_alert(alert))
+
+        return mapped_alerts
