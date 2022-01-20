@@ -55,7 +55,7 @@ class Mapper:
             "sun": Sun(
                 sunrise=day["sunrise"],
                 sunset=day["sunset"],
-                uv=day["uvi"]
+                uv_index=day["uvi"]
             ),
             "description": Forecast(
                 title=day["weather"][0]["main"],
@@ -130,7 +130,7 @@ class Mapper:
             "sun": Sun(
                 sunrise=now["sunrise"],
                 sunset=now["sunset"],
-                uv=now["uvi"]
+                uv_index=now["uvi"]
             ),
         })
 
