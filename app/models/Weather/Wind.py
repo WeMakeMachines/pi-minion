@@ -1,9 +1,11 @@
+from typing import Optional
+
 from app.helpers.units import SpeedUnits
 
 
 class Wind:
     @staticmethod
-    def __describe_wind_direction(degrees: int):
+    def describe_wind_direction(degrees: int):
         description = ["north", "north east", "east", "south east", "south", "south west", "west", "north west"]
         degrees_in_compass = 360
         cardinal_points = len(description)
@@ -14,11 +16,11 @@ class Wind:
         return description[(pick % cardinal_points)]
 
     @staticmethod
-    def __calc_beaufort_scale(speed: float, units: SpeedUnits):
+    def calc_beaufort_scale(speed: float, units: SpeedUnits):
         if units is SpeedUnits.KILOMETRES_PER_HOUR:
-            speed_as_miles_per_hour = SpeedUnits.as_imperial(speed)
+            speed_as_miles_per_hour = round(SpeedUnits.as_imperial(speed))
         else:
-            speed_as_miles_per_hour = speed
+            speed_as_miles_per_hour = round(speed)
 
         # Information taken from https://en.wikipedia.org/wiki/Beaufort_scale
         if 1 <= speed_as_miles_per_hour <= 3:
@@ -48,10 +50,11 @@ class Wind:
 
         return 0
 
-    def __init__(self, units: SpeedUnits, speed: float, degrees: int, gust: float = None):
+    def __init__(self, units: SpeedUnits, speed: float, degrees: int, gust: Optional[float]):
         self.units = units
         self.speed = speed
         self.degrees = degrees
-        self.direction = self.__describe_wind_direction(self.degrees)
-        self.gust = gust
-        self.beaufort = self.__calc_beaufort_scale(self.speed, self.units)
+        self.direction = self.describe_wind_direction(self.degrees)
+        self.beaufort = self.calc_beaufort_scale(self.speed, self.units)
+        if gust is not None:
+            self.gust = gust
