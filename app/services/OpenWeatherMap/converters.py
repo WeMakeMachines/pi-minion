@@ -1,5 +1,5 @@
-from app.models.Weather.Temperature import Temperature
-from app.models.Weather.Wind import Wind
+from app.models.Temperature import Temperature
+from app.models.Wind import Wind
 from app.helpers.units import Units, SpeedUnits, TemperatureUnits
 
 
