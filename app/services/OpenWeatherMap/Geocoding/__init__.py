@@ -7,13 +7,13 @@ from .mappers import Mapper
 from .models import ReverseGeocodingLocation
 
 
-class OpenWeatherMapGeoCodingError(Exception):
+class OpenWeatherMapGeocodingError(Exception):
     pass
 
 
-# Interfaces with the OpenWeatherMap GeoCoding API
+# Interfaces with the OpenWeatherMap Geocoding API
 # Docs: https://openweathermap.org/api/geocoding-api
-class OpenWeatherMapGeoCoding:
+class OpenWeatherMapGeocoding:
     base_url = "http://api.openweathermap.org/geo/1.0"
 
     def __init__(
@@ -39,7 +39,7 @@ class OpenWeatherMapGeoCoding:
                                                                            data]
             return reverse_geocoding_locations
         except requests.ConnectionError:
-            raise OpenWeatherMapGeoCodingError("Connection Error")
+            raise OpenWeatherMapGeocodingError("Connection Error")
 
     def call(self):
         return self.call_reverse_geocoding()

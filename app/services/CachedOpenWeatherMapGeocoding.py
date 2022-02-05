@@ -2,10 +2,10 @@ from multiprocessing import Lock
 from pymemcache.client.base import Client
 
 from app.helpers.cache import JsonCacheSerializeDeserialize
-from app.services.OpenWeatherMap.GeoCoding import OpenWeatherMapGeoCoding
+from app.services.OpenWeatherMap.Geocoding import OpenWeatherMapGeocoding
 
 
-class CachedOpenWeatherMapGeoCoding(OpenWeatherMapGeoCoding):
+class CachedOpenWeatherMapGeocoding(OpenWeatherMapGeocoding):
     lock = Lock()
 
     def __init__(

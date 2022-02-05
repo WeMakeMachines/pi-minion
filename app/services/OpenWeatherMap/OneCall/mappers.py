@@ -1,5 +1,3 @@
-from typing import List
-
 from app.models.Alert import Alert
 from app.models.Clouds import Clouds
 from app.models.Forecast import Forecast
