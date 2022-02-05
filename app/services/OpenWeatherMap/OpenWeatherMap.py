@@ -9,11 +9,10 @@ class OpenWeatherMapError(Exception):
     pass
 
 
-# Interfaces with the OpenWeatherMap API
+# Interfaces with the OpenWeatherMap One Call API
 # Docs: https://openweathermap.org/api/one-call-api
 class OpenWeatherMap:
-    base_url = "https://api.openweathermap.org"
-    one_call_route = "data/2.5/onecall"
+    base_url = "https://api.openweathermap.org/data/2.5/onecall"
 
     def __init__(
             self,
@@ -31,7 +30,7 @@ class OpenWeatherMap:
         self.temperature_units = temperature_units
         self.latitude = latitude
         self.longitude = longitude
-        self.url = f"{self.base_url}/{self.one_call_route}?lat={latitude}&lon={longitude}&appid={api_key}&units={base_units.value}&lang={language}&exclude=minutely"
+        self.url = f"{self.base_url}?lat={latitude}&lon={longitude}&appid={api_key}&units={base_units.value}&lang={language}&exclude=minutely"
         self.raw_response = {}
         self.mapper = Mapper(
             units=MapperUnits(
