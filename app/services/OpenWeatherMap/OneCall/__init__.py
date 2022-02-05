@@ -30,6 +30,7 @@ class OpenWeatherMapOneCall:
         self.temperature_units = temperature_units
         self.latitude = latitude
         self.longitude = longitude
+        self.language = language
         self.url = f"{self.base_url}?lat={latitude}&lon={longitude}&appid={api_key}&units={base_units.value}&lang={language}&exclude=minutely"
         self.raw_response = {}
         self.mapper = Mapper(
@@ -39,12 +40,6 @@ class OpenWeatherMapOneCall:
                 temperature_units=self.temperature_units
             )
         )
-        self.location = {
-            "location": {
-                "lat": self.latitude,
-                "long": self.longitude
-            }
-        }
 
     def call(self):
         try:

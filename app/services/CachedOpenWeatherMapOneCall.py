@@ -47,7 +47,7 @@ class CachedOpenWeatherMapOneCall(OpenWeatherMapOneCall):
 
         self.cache_client: Client = Client(server=memcached_server, serde=JsonCacheSerializeDeserialize(), connect_timeout=10,
                                    timeout=10, no_delay=False)
-        self.cache_key: str = f"pinion.weather.open.weather.map{cache_key}"
+        self.cache_key: str = f"pinion.weather.open.weather.map.one.call{cache_key}"
         self.cache_timestamp: int = 0
         self.cached: bool = False
         self.lock.acquire()
