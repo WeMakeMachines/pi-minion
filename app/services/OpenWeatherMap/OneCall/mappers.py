@@ -1,5 +1,3 @@
-from typing import TypedDict
-
 from app.models.Alert import Alert
 from app.models.Clouds import Clouds
 from app.models.Forecast import Forecast
@@ -8,17 +6,11 @@ from app.helpers.units import Units
 from .converters import ConvertedTemperature, ConvertedWind
 
 
-class MapperUnits(TypedDict):
-    base_units: Units
-    speed_units: Units
-    temperature_units: Units
-
-
 class Mapper:
-    def __init__(self, units: MapperUnits):
-        self.base_units = units["base_units"]
-        self.speed_units = units["speed_units"]
-        self.temperature_units = units["temperature_units"]
+    def __init__(self, base_units: Units, speed_units: Units, temperature_units: Units):
+        self.base_units = base_units
+        self.speed_units = speed_units
+        self.temperature_units = temperature_units
 
     def __map_hour(self, hour):
         precipitation_chance = None

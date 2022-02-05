@@ -2,7 +2,7 @@ import requests
 import json
 
 from app.helpers.units import Units
-from .mappers import Mapper, MapperUnits
+from .mappers import Mapper
 
 
 class OpenWeatherMapOneCallError(Exception):
@@ -34,11 +34,9 @@ class OpenWeatherMapOneCall:
         self.url = f"{self.base_url}?lat={latitude}&lon={longitude}&appid={api_key}&units={base_units.value}&lang={language}&exclude=minutely"
         self.raw_response = {}
         self.mapper = Mapper(
-            units=MapperUnits(
-                base_units=self.base_units,
-                speed_units=self.speed_units,
-                temperature_units=self.temperature_units
-            )
+            base_units=self.base_units,
+            speed_units=self.speed_units,
+            temperature_units=self.temperature_units
         )
 
     def call(self):
