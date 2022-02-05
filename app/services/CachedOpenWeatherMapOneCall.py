@@ -4,10 +4,10 @@ from pymemcache.client.base import Client
 from app.helpers.cache import CacheExpiresAfter, JsonCacheSerializeDeserialize
 from app.helpers.time import DateTimeComparison
 from app.helpers.units import Units
-from .OpenWeatherMap.OpenWeatherMap import OpenWeatherMap
+from app.services.OpenWeatherMap.OneCall import OpenWeatherMapOneCall
 
 
-class CachedOpenWeatherMap(OpenWeatherMap):
+class CachedOpenWeatherMapOneCall(OpenWeatherMapOneCall):
     lock = Lock()
 
     @staticmethod
@@ -60,7 +60,7 @@ class CachedOpenWeatherMap(OpenWeatherMap):
             cache_contents = self.cache_client.get(self.cache_key)
 
             if cache_contents is not None:
-                is_cache_valid = CachedOpenWeatherMap.validate_cache_timestamp(
+                is_cache_valid = CachedOpenWeatherMapOneCall.validate_cache_timestamp(
                     timestamp=cache_contents["cache_timestamp"],
                     cache_expires_after=cache_expires_after
                 )

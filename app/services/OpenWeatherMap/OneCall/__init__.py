@@ -5,13 +5,13 @@ from app.helpers.units import Units
 from .mappers import Mapper, MapperUnits
 
 
-class OpenWeatherMapError(Exception):
+class OpenWeatherMapOneCallError(Exception):
     pass
 
 
 # Interfaces with the OpenWeatherMap One Call API
 # Docs: https://openweathermap.org/api/one-call-api
-class OpenWeatherMap:
+class OpenWeatherMapOneCall:
     base_url = "https://api.openweathermap.org/data/2.5/onecall"
 
     def __init__(
@@ -51,7 +51,7 @@ class OpenWeatherMap:
             response = requests.get(self.url)
             return json.loads(response.text)
         except requests.ConnectionError:
-            raise OpenWeatherMapError("Connection Error")
+            raise OpenWeatherMapOneCallError("Connection Error")
 
     def now(self):
         return self.mapper.map_now(self.raw_response["current"])

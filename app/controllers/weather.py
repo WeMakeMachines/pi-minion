@@ -1,23 +1,21 @@
 from fastapi import Request
 from config import BaseConfig
-from app.services.CachedOpenWeatherMap import CachedOpenWeatherMap
+from app.services.CachedOpenWeatherMapOneCall import CachedOpenWeatherMapOneCall
 from app.helpers.cache import CacheExpiresAfter
-from app.helpers.request import ExtractCacheFromRequestState, ExtractUnitsFromRequestState, \
-    ExtractLocationFromRequestState
+from app.helpers.request import ExtractCacheFromRequestState, ExtractUnitsFromRequestState
 
 
 def open_weather_map(request: Request, now: str, hourly: str, daily: str, alerts: str):
     cache = ExtractCacheFromRequestState(request)
     units = ExtractUnitsFromRequestState(request)
-    location = ExtractLocationFromRequestState(request)
-    cache_key = f"{location.latitude}{location.longitude}"
-    _open_weather_map = CachedOpenWeatherMap(
+    cache_key = f"{BaseConfig.LATITUDE}{BaseConfig.LONGITUDE}"
+    _open_weather_map = CachedOpenWeatherMapOneCall(
         api_key=BaseConfig.OPEN_WEATHER_MAP_API_KEY,
         base_units=BaseConfig.BASE_UNITS,
         speed_units=units.speed_units,
         temperature_units=units.temperature_units,
-        latitude=location.latitude,
-        longitude=location.longitude,
+        latitude=BaseConfig.LATITUDE,
+        longitude=BaseConfig.LONGITUDE,
         cache_expires_after=CacheExpiresAfter.DISABLE if cache.nocache else BaseConfig.CACHE_EXPIRES_AFTER,
         cache_key=cache_key,
         language=BaseConfig.LANGUAGE,

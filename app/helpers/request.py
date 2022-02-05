@@ -15,12 +15,6 @@ class ExtractUnitsFromRequestState:
         self.temperature_units = ExtractUnitsFromRequestState.__get_units(request.state.units["temp"])
 
 
-class ExtractLocationFromRequestState:
-    def __init__(self, request: Request):
-        self.latitude = request.state.location["lat"]
-        self.longitude = request.state.location["lon"]
-
-
 class ExtractCacheFromRequestState:
     def __init__(self, request: Request):
         self.nocache = request.state.cache["nocache"]

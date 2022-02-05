@@ -21,29 +21,6 @@ class NormaliseCacheQueryParams(BaseHTTPMiddleware):
         return response
 
 
-class NormaliseLocationQueryParams(BaseHTTPMiddleware):
-    def __init__(self, app: ASGIApp):
-        super().__init__(app)
-
-    async def dispatch(self, request: Request, call_next: Callable) -> Response:
-        location = {
-            "lat": BaseConfig.LATITUDE,
-            "lon": BaseConfig.LONGITUDE
-        }
-        normalised_params = {}
-
-        for param in location:
-            if param in request.query_params:
-                client_value = request.query_params[param]
-                normalised_params[param] = client_value
-            else:
-                normalised_params[param] = location[param]
-
-        request.state.location = normalised_params
-        response = await call_next(request)
-        return response
-
-
 class NormaliseUnitQueryParams(BaseHTTPMiddleware):
     def __init__(self, app: ASGIApp):
         super().__init__(app)

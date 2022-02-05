@@ -30,8 +30,6 @@ The following parameters can be omitted, if the server config has been setup wit
 
 - `speed` - can be either `metric` or `imperial`
 - `temp` - can be either `metric` or `imperial`
-- `lat` - latitude co-ordinate
-- `lon` - longitude co-ordinate
 - `nocache` - force pinion.weather to make a fresh request
 
 ## Configuring

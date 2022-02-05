@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from .middleware.query_params import NormaliseCacheQueryParams, NormaliseLocationQueryParams, NormaliseUnitQueryParams
+from .middleware.query_params import NormaliseCacheQueryParams, NormaliseUnitQueryParams
 from .controllers.weather import open_weather_map
 
 app = FastAPI()
@@ -13,7 +13,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.add_middleware(NormaliseCacheQueryParams)
-app.add_middleware(NormaliseLocationQueryParams)
 app.add_middleware(NormaliseUnitQueryParams)
 
 
