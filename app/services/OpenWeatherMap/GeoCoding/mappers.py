@@ -1,12 +1,12 @@
 from app.models.Location import Location
-from .models import ReverseLocation
+from .models import ReverseGeocodingLocation
 
 
 class Mapper:
     def __init__(self, language=str):
         self.language = language
 
-    def __map_reverse_location(self, location: ReverseLocation):
+    def __map_reverse_location(self, location: ReverseGeocodingLocation):
         return {
             "location": Location(
                 lat=location["lat"],

@@ -2,7 +2,7 @@ from typing import Optional
 from .BaseWeather import BaseWeather, WeatherCondition
 
 
-class Hourly(BaseWeather):
+class Hour(BaseWeather):
     feels_like: float
     pop: float
     temp: float

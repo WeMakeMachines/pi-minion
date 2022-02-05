@@ -1,7 +1,10 @@
 import requests
 import json
 
+from typing import List
+
 from .mappers import Mapper
+from .models import ReverseGeocodingLocation
 
 
 class OpenWeatherMapGeoCodingError(Exception):
@@ -28,15 +31,18 @@ class OpenWeatherMapGeoCoding:
         self.raw_response = []
         self.mapper = Mapper(language=self.language)
 
-    def call_reverse(self):
+    def call_reverse_geocoding(self):
         try:
             response = requests.get(self.url_reverse)
-            return json.loads(response.text)
+            data = json.loads(response.text)
+            reverse_geocoding_locations: List[ReverseGeocodingLocation] = [ReverseGeocodingLocation(**item) for item in
+                                                                           data]
+            return reverse_geocoding_locations
         except requests.ConnectionError:
             raise OpenWeatherMapGeoCodingError("Connection Error")
 
     def call(self):
-        return self.call_reverse()
+        return self.call_reverse_geocoding()
 
     def reverse_location(self):
         return self.mapper.map_reverse_location(self.raw_response)

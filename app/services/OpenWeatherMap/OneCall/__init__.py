@@ -2,6 +2,7 @@ import requests
 import json
 
 from app.helpers.units import Units
+from .models import OneCall
 from .mappers import Mapper
 
 
@@ -42,7 +43,10 @@ class OpenWeatherMapOneCall:
     def call(self):
         try:
             response = requests.get(self.url)
-            return json.loads(response.text)
+            data = json.loads(response.text)
+            one_call: OneCall = data
+            return one_call
+
         except requests.ConnectionError:
             raise OpenWeatherMapOneCallError("Connection Error")
 

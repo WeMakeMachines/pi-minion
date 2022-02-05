@@ -1,9 +1,12 @@
+from typing import List
+
 from app.models.Alert import Alert
 from app.models.Clouds import Clouds
 from app.models.Forecast import Forecast
 from app.models.Sun import Sun
 from app.helpers.units import Units
 from .converters import ConvertedTemperature, ConvertedWind
+from .models import Hour, Day, Alert as AlertType
 
 
 class Mapper:
@@ -12,7 +15,7 @@ class Mapper:
         self.speed_units = speed_units
         self.temperature_units = temperature_units
 
-    def __map_hour(self, hour):
+    def __map_hour(self, hour: Hour):
         precipitation_chance = None
 
         if "pop" in hour:
@@ -42,7 +45,7 @@ class Mapper:
             )
         }
 
-    def __map_day(self, day):
+    def __map_day(self, day: Day):
         return {
             "sun": Sun(
                 sunrise=day["sunrise"],
@@ -102,7 +105,7 @@ class Mapper:
             )
         }
 
-    def __map_alert(self, alert):
+    def __map_alert(self, alert: AlertType):
         return Alert(
             title=alert["event"],
             issued_by=alert["sender_name"],
@@ -111,7 +114,7 @@ class Mapper:
             description=alert["description"]
         )
 
-    def map_now(self, now):
+    def map_now(self, now: Hour):
         mapped_hour = self.__map_hour(now)
         mapped_now = {}
 
@@ -136,7 +139,7 @@ class Mapper:
 
         return mapped_hourly
 
-    def map_daily(self, daily):
+    def map_daily(self, daily: Day):
         mapped_daily = []
 
         for day in daily:

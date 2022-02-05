@@ -43,7 +43,7 @@ class LocalNames(BaseModel):
     zu: str
 
 
-class ReverseLocation(BaseModel):
+class ReverseGeocodingLocation(BaseModel):
     name: str
     local_names: LocalNames
     lat: float

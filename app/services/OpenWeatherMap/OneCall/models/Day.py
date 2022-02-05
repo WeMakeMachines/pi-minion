@@ -16,7 +16,7 @@ class Temperature(BaseTemperature):
     max: float
 
 
-class Daily(BaseWeather):
+class Day(BaseWeather):
     sunrise: date
     sunset: date
     moonrise: date
