@@ -38,16 +38,19 @@ The following parameters can be omitted, if the server config has been setup wit
 
 Follow the example from `config_example.ini`
 
-- `CACHE_EXPIRES_AFTER`
-   > `integer`
-   > 
-   > number of minutes the cache is valid for, i.e, _60_ for 1 hour
-   
-   > `string`
-   > 
-   > **today** - cache only valid for today (up till midnight)
-   > 
-   > **disable** - disables all cache requests
+##### CACHE_EXPIRES_AFTER
+
+> `integer` _(optional)_
+> 
+> number of minutes the cache is valid for, i.e, _60_ for 1 hour
+
+##### CACHE_BEHAVIOUR
+
+> `string` _(optional)_
+> 
+> **renew_daily** - cache only valid for today
+> 
+> **disable** - disables all cache requests
 
 ## System Dependencies (Linux)
 
