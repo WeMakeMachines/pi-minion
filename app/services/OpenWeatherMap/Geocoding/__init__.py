@@ -35,9 +35,7 @@ class OpenWeatherMapGeocoding:
         try:
             response = requests.get(self.url_reverse)
             data = json.loads(response.text)
-            reverse_geocoding_locations: List[ReverseGeocodingLocation] = [ReverseGeocodingLocation(**item) for item in
-                                                                           data]
-            return reverse_geocoding_locations
+            return data
         except requests.ConnectionError:
             raise OpenWeatherMapGeocodingError("Connection Error")
 
