@@ -1,8 +1,8 @@
 from app.utils.CacheRequest import CacheRequest, CacheBehaviour
-from app.services.OpenWeatherMap.Geocoding import OpenWeatherMapGeocoding
+from app.services.OpenWeatherMap.ReverseGeocoding import OpenWeatherMapReverseGeocoding
 
 
-class CachedOpenWeatherMapGeocoding(OpenWeatherMapGeocoding):
+class CachedOpenWeatherMapReverseGeocoding(OpenWeatherMapReverseGeocoding):
     def __init__(
             self,
             api_key: str,

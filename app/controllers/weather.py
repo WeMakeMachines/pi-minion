@@ -1,7 +1,7 @@
 from fastapi import Request
 from config import BaseConfig
 from app.services.CachedOpenWeatherMap.CachedOpenWeatherMapOneCall import CachedOpenWeatherMapOneCall
-from app.services.CachedOpenWeatherMap.CachedOpenWeatherMapGeocoding import CachedOpenWeatherMapGeocoding
+from app.services.CachedOpenWeatherMap.CachedOpenWeatherMapReverseGeocoding import CachedOpenWeatherMapReverseGeocoding
 from app.utils.CacheRequest.types import CacheBehaviour
 from app.utils.request import ExtractCacheBehaviourFromRequestState, ExtractUnitsFromRequestState
 
@@ -22,7 +22,7 @@ def open_weather_map(request: Request, now: str, hourly: str, daily: str, alerts
         cache_key="open.weather.map.one.call",
         memcached_server=BaseConfig.MEMCACHED_SERVER
     )
-    _open_weather_map_geocoding = CachedOpenWeatherMapGeocoding(
+    _open_weather_map_geocoding = CachedOpenWeatherMapReverseGeocoding(
         api_key=BaseConfig.OPEN_WEATHER_MAP_API_KEY,
         latitude=BaseConfig.LATITUDE,
         longitude=BaseConfig.LONGITUDE,

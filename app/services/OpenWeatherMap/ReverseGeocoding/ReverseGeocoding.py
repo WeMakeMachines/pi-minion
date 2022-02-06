@@ -1,19 +1,16 @@
 import requests
 import json
 
-from typing import List
-
 from .mappers import Mapper
-from .models import ReverseGeocodingLocation
 
 
-class OpenWeatherMapGeocodingError(Exception):
+class OpenWeatherMapReverseGeocodingError(Exception):
     pass
 
 
-# Interfaces with the OpenWeatherMap Geocoding API
+# Interfaces with the OpenWeatherMap ReverseGeocoding API
 # Docs: https://openweathermap.org/api/geocoding-api
-class OpenWeatherMapGeocoding:
+class OpenWeatherMapReverseGeocoding:
     base_url = "http://api.openweathermap.org/geo/1.0"
 
     def __init__(
@@ -27,20 +24,17 @@ class OpenWeatherMapGeocoding:
         self.latitude = latitude
         self.longitude = longitude
         self.language = language
-        self.url_reverse = f"{self.base_url}/reverse?lat={latitude}&lon={longitude}&appid={api_key}&limit=1"
+        self.url = f"{self.base_url}/reverse?lat={latitude}&lon={longitude}&appid={api_key}&limit=1"
         self.raw_response = []
         self.mapper = Mapper(language=self.language)
 
-    def call_reverse_geocoding(self):
+    def call(self):
         try:
-            response = requests.get(self.url_reverse)
+            response = requests.get(self.url)
             data = json.loads(response.text)
             return data
         except requests.ConnectionError:
-            raise OpenWeatherMapGeocodingError("Connection Error")
-
-    def call(self):
-        return self.call_reverse_geocoding()
+            raise OpenWeatherMapReverseGeocodingError("Connection Error")
 
     def reverse_location(self):
         return self.mapper.map_reverse_location(self.raw_response)
