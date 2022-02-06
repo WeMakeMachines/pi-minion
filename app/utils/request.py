@@ -1,5 +1,5 @@
 from fastapi import Request
-from app.helpers.units import Units
+from app.utils.units import Units
 
 
 class ExtractUnitsFromRequestState:
@@ -15,6 +15,6 @@ class ExtractUnitsFromRequestState:
         self.temperature_units = ExtractUnitsFromRequestState.__get_units(request.state.units["temp"])
 
 
-class ExtractCacheFromRequestState:
+class ExtractCacheBehaviourFromRequestState:
     def __init__(self, request: Request):
         self.nocache = request.state.cache["nocache"]
