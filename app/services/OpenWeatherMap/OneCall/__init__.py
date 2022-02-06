@@ -1,7 +1,7 @@
 import requests
 import json
 
-from app.helpers.units import Units
+from app.utils.units import Units
 from .models import OneCall
 from .mappers import Mapper
 
@@ -18,12 +18,12 @@ class OpenWeatherMapOneCall:
     def __init__(
             self,
             api_key: str,
+            latitude: float,
+            longitude: float,
+            language: str,
             base_units: Units,
             speed_units: Units,
             temperature_units: Units,
-            latitude: float,
-            longitude: float,
-            language: str
     ):
         self.api_key = api_key
         self.base_units = base_units
@@ -60,4 +60,7 @@ class OpenWeatherMapOneCall:
         return self.mapper.map_daily(self.raw_response["daily"])
 
     def alerts(self):
-        return self.mapper.map_alerts(self.raw_response["alerts"])
+        if hasattr(self.raw_response, "alerts"):
+            return self.mapper.map_alerts(self.raw_response["alerts"])
+
+        return []

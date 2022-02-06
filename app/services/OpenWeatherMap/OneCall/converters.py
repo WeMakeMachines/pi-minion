@@ -1,6 +1,6 @@
 from app.models.Temperature import Temperature
 from app.models.Wind import Wind
-from app.helpers.units import Units, SpeedUnits, TemperatureUnits
+from app.utils.units import Units, SpeedUnits, TemperatureUnits
 
 
 class ConvertedTemperature(Temperature):

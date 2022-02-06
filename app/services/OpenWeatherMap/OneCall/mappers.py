@@ -2,7 +2,7 @@ from app.models.Alert import Alert
 from app.models.Clouds import Clouds
 from app.models.Forecast import Forecast
 from app.models.Sun import Sun
-from app.helpers.units import Units
+from app.utils.units import Units
 from .converters import ConvertedTemperature, ConvertedWind
 from .models import Hour, Day, Alert as AlertType
 
