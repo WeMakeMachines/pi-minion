@@ -1,23 +1,14 @@
 from fastapi import Request
 from config import BaseConfig
-from app.services.CachedOpenWeatherMapOneCall import CachedOpenWeatherMapOneCall
-from app.services.CachedOpenWeatherMapGeocoding import CachedOpenWeatherMapGeocoding
-from app.helpers.cache import CacheExpiresAfter
-from app.helpers.request import ExtractCacheFromRequestState, ExtractUnitsFromRequestState
+from app.services.CachedOpenWeatherMap.CachedOpenWeatherMapOneCall import CachedOpenWeatherMapOneCall
+from app.services.CachedOpenWeatherMap.CachedOpenWeatherMapGeocoding import CachedOpenWeatherMapGeocoding
+from app.utils.CacheRequest.types import CacheBehaviour
+from app.utils.request import ExtractCacheBehaviourFromRequestState, ExtractUnitsFromRequestState
 
 
 def open_weather_map(request: Request, now: str, hourly: str, daily: str, alerts: str):
-    cache = ExtractCacheFromRequestState(request)
+    cache_behaviour = ExtractCacheBehaviourFromRequestState(request)
     units = ExtractUnitsFromRequestState(request)
-    cache_key = f"{BaseConfig.LATITUDE}{BaseConfig.LONGITUDE}"
-    _open_weather_map_geocoding = CachedOpenWeatherMapGeocoding(
-        api_key=BaseConfig.OPEN_WEATHER_MAP_API_KEY,
-        latitude=BaseConfig.LATITUDE,
-        longitude=BaseConfig.LONGITUDE,
-        cache_key=cache_key,
-        language=BaseConfig.LANGUAGE,
-        memcached_server=BaseConfig.MEMCACHED_SERVER
-    )
     _open_weather_map_one_call = CachedOpenWeatherMapOneCall(
         api_key=BaseConfig.OPEN_WEATHER_MAP_API_KEY,
         base_units=BaseConfig.BASE_UNITS,
@@ -25,9 +16,19 @@ def open_weather_map(request: Request, now: str, hourly: str, daily: str, alerts
         temperature_units=units.temperature_units,
         latitude=BaseConfig.LATITUDE,
         longitude=BaseConfig.LONGITUDE,
-        cache_expires_after=CacheExpiresAfter.DISABLE if cache.nocache else BaseConfig.CACHE_EXPIRES_AFTER,
-        cache_key=cache_key,
         language=BaseConfig.LANGUAGE,
+        cache_expires_after=BaseConfig.CACHE_EXPIRES_AFTER,
+        cache_behaviour=CacheBehaviour.DISABLE if cache_behaviour.nocache else BaseConfig.CACHE_BEHAVIOUR,
+        cache_key="open.weather.map.one.call",
+        memcached_server=BaseConfig.MEMCACHED_SERVER
+    )
+    _open_weather_map_geocoding = CachedOpenWeatherMapGeocoding(
+        api_key=BaseConfig.OPEN_WEATHER_MAP_API_KEY,
+        latitude=BaseConfig.LATITUDE,
+        longitude=BaseConfig.LONGITUDE,
+        language=BaseConfig.LANGUAGE,
+        cache_behaviour=CacheBehaviour.CACHE_ONCE,
+        cache_key="open.weather.map.geocoding",
         memcached_server=BaseConfig.MEMCACHED_SERVER
     )
 
@@ -40,7 +41,9 @@ def open_weather_map(request: Request, now: str, hourly: str, daily: str, alerts
     if daily is not None:
         data["daily"] = _open_weather_map_one_call.daily()
     if alerts is not None:
-        data["alerts"] = _open_weather_map_one_call.alerts()
-    if _open_weather_map_one_call.cached is True:
-        data["cache_timestamp"] = _open_weather_map_one_call.cache_timestamp
+        _alerts = _open_weather_map_one_call.alerts()
+        if len(_alerts) != 0:
+            data["alerts"] = _alerts
+    if _open_weather_map_one_call.cache.cached is True:
+        data["cache_timestamp"] = _open_weather_map_one_call.cache.cache_timestamp
     return data
