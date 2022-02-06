@@ -1,6 +1,6 @@
 from typing import Optional
 
-from app.helpers.units import SpeedUnits
+from app.utils.units import SpeedUnits
 
 
 class Wind:
