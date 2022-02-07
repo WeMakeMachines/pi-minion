@@ -13,13 +13,7 @@ class OpenWeatherMapReverseGeocodingError(Exception):
 class OpenWeatherMapReverseGeocoding:
     base_url = "http://api.openweathermap.org/geo/1.0"
 
-    def __init__(
-            self,
-            api_key: str,
-            latitude: float,
-            longitude: float,
-            language: str
-    ):
+    def __init__(self, api_key: str, latitude: float, longitude: float, language: str):
         self.api_key = api_key
         self.latitude = latitude
         self.longitude = longitude

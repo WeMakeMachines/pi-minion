@@ -7,7 +7,7 @@ class DateTimeComparison:
         self.now = datetime.now()
 
     def get_diff_in_minutes(self):
-        diff = (self.now - self.datetime)
+        diff = self.now - self.datetime
         diff_in_minutes = diff.total_seconds() / 60
 
         return diff_in_minutes

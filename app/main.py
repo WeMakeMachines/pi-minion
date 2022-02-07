@@ -17,10 +17,18 @@ app.add_middleware(NormaliseUnitQueryParams)
 
 
 @app.get("/")
-async def weather(request: Request, now: str = None, hourly: str = None, daily: str = None, alerts: str = None):
+async def weather(
+    request: Request,
+    now: str = None,
+    hourly: str = None,
+    daily: str = None,
+    alerts: str = None,
+):
     if now is None and hourly is None and daily is None and alerts is None:
         now = "now"
         hourly = "hourly"
         daily = "daily"
         alerts = "alerts"
-    return open_weather_map(request=request, now=now, hourly=hourly, daily=daily, alerts=alerts)
+    return open_weather_map(
+        request=request, now=now, hourly=hourly, daily=daily, alerts=alerts
+    )

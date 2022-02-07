@@ -4,24 +4,21 @@ from app.services.OpenWeatherMap.ReverseGeocoding import OpenWeatherMapReverseGe
 
 class CachedOpenWeatherMapReverseGeocoding(OpenWeatherMapReverseGeocoding):
     def __init__(
-            self,
-            api_key: str,
-            latitude: float,
-            longitude: float,
-            language: str,
-            cache_behaviour: CacheBehaviour,
-            cache_key: str,
-            memcached_server: str
+        self,
+        api_key: str,
+        latitude: float,
+        longitude: float,
+        language: str,
+        cache_behaviour: CacheBehaviour,
+        cache_key: str,
+        memcached_server: str,
     ):
         super().__init__(
-            api_key=api_key,
-            latitude=latitude,
-            longitude=longitude,
-            language=language
+            api_key=api_key, latitude=latitude, longitude=longitude, language=language
         )
         self.cache = CacheRequest(
             memcached_server=memcached_server,
             cache_key=cache_key,
-            cache_behaviour=cache_behaviour
+            cache_behaviour=cache_behaviour,
         )
         self.raw_response = self.cache.read(self.call)

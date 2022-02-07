@@ -16,14 +16,14 @@ class OpenWeatherMapOneCall:
     base_url = "https://api.openweathermap.org/data/2.5/onecall"
 
     def __init__(
-            self,
-            api_key: str,
-            latitude: float,
-            longitude: float,
-            language: str,
-            base_units: Units,
-            speed_units: Units,
-            temperature_units: Units,
+        self,
+        api_key: str,
+        latitude: float,
+        longitude: float,
+        language: str,
+        base_units: Units,
+        speed_units: Units,
+        temperature_units: Units,
     ):
         self.api_key = api_key
         self.base_units = base_units
@@ -37,7 +37,7 @@ class OpenWeatherMapOneCall:
         self.mapper = Mapper(
             base_units=self.base_units,
             speed_units=self.speed_units,
-            temperature_units=self.temperature_units
+            temperature_units=self.temperature_units,
         )
 
     def call(self):

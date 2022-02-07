@@ -11,7 +11,7 @@ class Mapper:
             "location": Location(
                 lat=location["lat"],
                 long=location["lon"],
-                name=location["local_names"][self.language]
+                name=location["local_names"][self.language],
             )
         }
 

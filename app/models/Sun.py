@@ -14,10 +14,7 @@ class Sun:
         hours = floor(duration / seconds_in_hour)
         minutes = duration % seconds_in_minute
 
-        return {
-            "hours": hours,
-            "minutes": minutes
-        }
+        return {"hours": hours, "minutes": minutes}
 
     def __init__(self, sunrise: int, sunset: int, uv_index: float):
         self.sunrise = sunrise

@@ -6,12 +6,23 @@ from app.utils.units import SpeedUnits
 class Wind:
     @staticmethod
     def describe_wind_direction(degrees: int):
-        description = ["north", "north east", "east", "south east", "south", "south west", "west", "north west"]
+        description = [
+            "north",
+            "north east",
+            "east",
+            "south east",
+            "south",
+            "south west",
+            "west",
+            "north west",
+        ]
         degrees_in_compass = 360
         cardinal_points = len(description)
         degrees_per_cardinal_points = degrees_in_compass / cardinal_points
 
-        pick = int((degrees + degrees_per_cardinal_points / 2) / degrees_per_cardinal_points)
+        pick = int(
+            (degrees + degrees_per_cardinal_points / 2) / degrees_per_cardinal_points
+        )
 
         return description[(pick % cardinal_points)]
 
@@ -50,7 +61,9 @@ class Wind:
 
         return 0
 
-    def __init__(self, units: SpeedUnits, speed: float, degrees: int, gust: Optional[float]):
+    def __init__(
+        self, units: SpeedUnits, speed: float, degrees: int, gust: Optional[float]
+    ):
         self.units = units
         self.speed = speed
         self.degrees = degrees

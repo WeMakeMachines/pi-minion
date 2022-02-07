@@ -11,8 +11,12 @@ class ExtractUnitsFromRequestState:
             return Units.METRIC
 
     def __init__(self, request: Request):
-        self.speed_units = ExtractUnitsFromRequestState.__get_units(request.state.units["speed"])
-        self.temperature_units = ExtractUnitsFromRequestState.__get_units(request.state.units["temp"])
+        self.speed_units = ExtractUnitsFromRequestState.__get_units(
+            request.state.units["speed"]
+        )
+        self.temperature_units = ExtractUnitsFromRequestState.__get_units(
+            request.state.units["temp"]
+        )
 
 
 class ExtractCacheBehaviourFromRequestState:

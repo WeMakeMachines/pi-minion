@@ -28,7 +28,7 @@ class NormaliseUnitQueryParams(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
         units = {
             "speed": BaseConfig.BASE_UNITS.value,
-            "temp": BaseConfig.BASE_UNITS.value
+            "temp": BaseConfig.BASE_UNITS.value,
         }
         normalised_params = {}
 

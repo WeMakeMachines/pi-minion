@@ -3,7 +3,7 @@ from app.utils.units import Units
 from configparser import ConfigParser
 
 config = ConfigParser()
-config.read('config.ini')
+config.read("config.ini")
 
 
 class BaseConfigError(Exception):
@@ -16,7 +16,10 @@ def handle_cache_behaviour():
             print("Caching is disabled")
             return CacheBehaviour.DISABLE
 
-        if CacheBehaviour(config["cache"]["cache_behaviour"]) is CacheBehaviour.RENEW_DAILY:
+        if (
+            CacheBehaviour(config["cache"]["cache_behaviour"])
+            is CacheBehaviour.RENEW_DAILY
+        ):
             print("Caching is set to renew daily")
             return CacheBehaviour.RENEW_DAILY
 
@@ -31,10 +34,17 @@ class BaseConfig:
     CACHE_BEHAVIOUR = handle_cache_behaviour()
     CACHE_EXPIRES_AFTER = config.getint("cache", "cache_expires_after") or 0
     DEFAULT_BASE_UNITS = Units.METRIC
-    BASE_UNITS = DEFAULT_BASE_UNITS if config["general"]["base_units"] is None else Units(
-        config["general"]["base_units"])
+    BASE_UNITS = (
+        DEFAULT_BASE_UNITS
+        if config["general"]["base_units"] is None
+        else Units(config["general"]["base_units"])
+    )
     DEFAULT_LANGUAGE = "en"
-    LANGUAGE = DEFAULT_LANGUAGE if config["general"]["language"] is None else config["general"]["language"]
+    LANGUAGE = (
+        DEFAULT_LANGUAGE
+        if config["general"]["language"] is None
+        else config["general"]["language"]
+    )
     MEMCACHED_SERVER = config["cache"]["memcached"]
 
 
