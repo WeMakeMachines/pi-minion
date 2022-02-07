@@ -1,4 +1,4 @@
-from app.utils.CacheRequest import CacheBehaviour
+from app.utils.MemcachedCacher import CacheBehaviour
 from app.utils.units import Units
 from configparser import ConfigParser
 

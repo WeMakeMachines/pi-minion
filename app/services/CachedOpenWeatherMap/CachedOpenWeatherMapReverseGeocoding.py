@@ -1,4 +1,4 @@
-from app.utils.CacheRequest import CacheRequest, CacheBehaviour
+from app.utils.MemcachedCacher import MemcachedCacher, CacheBehaviour
 from app.services.OpenWeatherMap.ReverseGeocoding import OpenWeatherMapReverseGeocoding
 
 
@@ -16,9 +16,9 @@ class CachedOpenWeatherMapReverseGeocoding(OpenWeatherMapReverseGeocoding):
         super().__init__(
             api_key=api_key, latitude=latitude, longitude=longitude, language=language
         )
-        self.cache = CacheRequest(
+        self.cache = MemcachedCacher(
             memcached_server=memcached_server,
             cache_key=cache_key,
             cache_behaviour=cache_behaviour,
         )
-        self.raw_response = self.cache.read(self.call)
+        self.response = self.cache.read(self.call)

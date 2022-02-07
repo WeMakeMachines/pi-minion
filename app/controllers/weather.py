@@ -6,8 +6,8 @@ from app.services.CachedOpenWeatherMap.CachedOpenWeatherMapOneCall import (
 from app.services.CachedOpenWeatherMap.CachedOpenWeatherMapReverseGeocoding import (
     CachedOpenWeatherMapReverseGeocoding,
 )
-from app.utils.CacheRequest.types import CacheBehaviour
-from app.utils.request import (
+from app.utils.MemcachedCacher.types import CacheBehaviour
+from app.utils.requestStateExtractors import (
     ExtractCacheBehaviourFromRequestState,
     ExtractUnitsFromRequestState,
 )

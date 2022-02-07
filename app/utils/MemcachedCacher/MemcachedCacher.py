@@ -7,7 +7,7 @@ from .serde import JsonCacheSerializeDeserialize
 from .types import CacheBehaviour
 
 
-class CacheRequest:
+class MemcachedCacher:
     def __init__(
         self,
         memcached_server: str,

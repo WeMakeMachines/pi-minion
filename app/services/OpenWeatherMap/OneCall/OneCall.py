@@ -33,7 +33,7 @@ class OpenWeatherMapOneCall:
         self.longitude = longitude
         self.language = language
         self.url = f"{self.base_url}?lat={latitude}&lon={longitude}&appid={api_key}&units={base_units.value}&lang={language}&exclude=minutely"
-        self.raw_response = {}
+        self.response = {}
         self.mapper = Mapper(
             base_units=self.base_units,
             speed_units=self.speed_units,
@@ -51,16 +51,16 @@ class OpenWeatherMapOneCall:
             raise OpenWeatherMapOneCallError("Connection Error")
 
     def now(self):
-        return self.mapper.map_now(self.raw_response["current"])
+        return self.mapper.map_now(self.response["current"])
 
     def hourly(self):
-        return self.mapper.map_hourly(self.raw_response["hourly"])
+        return self.mapper.map_hourly(self.response["hourly"])
 
     def daily(self):
-        return self.mapper.map_daily(self.raw_response["daily"])
+        return self.mapper.map_daily(self.response["daily"])
 
     def alerts(self):
-        if hasattr(self.raw_response, "alerts"):
-            return self.mapper.map_alerts(self.raw_response["alerts"])
+        if hasattr(self.response, "alerts"):
+            return self.mapper.map_alerts(self.response["alerts"])
 
         return []

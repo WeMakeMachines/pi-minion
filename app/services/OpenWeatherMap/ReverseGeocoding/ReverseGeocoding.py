@@ -19,7 +19,7 @@ class OpenWeatherMapReverseGeocoding:
         self.longitude = longitude
         self.language = language
         self.url = f"{self.base_url}/reverse?lat={latitude}&lon={longitude}&appid={api_key}&limit=1"
-        self.raw_response = []
+        self.response = []
         self.mapper = Mapper(language=self.language)
 
     def call(self):
@@ -31,4 +31,4 @@ class OpenWeatherMapReverseGeocoding:
             raise OpenWeatherMapReverseGeocodingError("Connection Error")
 
     def reverse_location(self):
-        return self.mapper.map_reverse_location(self.raw_response)
+        return self.mapper.map_reverse_location(self.response)

@@ -1,5 +1,5 @@
 from app.utils.units import Units
-from app.utils.CacheRequest import CacheRequest, CacheBehaviour
+from app.utils.MemcachedCacher import MemcachedCacher, CacheBehaviour
 from app.services.OpenWeatherMap.OneCall import OpenWeatherMapOneCall
 
 
@@ -27,10 +27,10 @@ class CachedOpenWeatherMapOneCall(OpenWeatherMapOneCall):
             speed_units=speed_units,
             temperature_units=temperature_units,
         )
-        self.cache = CacheRequest(
+        self.cache = MemcachedCacher(
             memcached_server=memcached_server,
             cache_key=cache_key,
             cache_behaviour=cache_behaviour,
             cache_expires_after=cache_expires_after,
         )
-        self.raw_response = self.cache.read(self.call)
+        self.response = self.cache.read(self.call)
